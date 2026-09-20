@@ -11,7 +11,9 @@
     "preview": "astro preview",
     "check": "astro check",
     "validar": "node scripts/validar.mjs",
-    "capturas": "node scripts/capturas.mjs"
+    "capturas": "node scripts/capturas.mjs",
+    "verificar-produccion": "node scripts/verificar-produccion.mjs",
+    "optimizar": "node scripts/optimizar-imagenes.mjs && node scripts/usar-webp.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

@@ -1,0 +1,22 @@
+---
+titulo: "Controversias en Torno a Lola Mora"
+descripcion: "Controversias en torno al lugar de nacimiento de la artista Lola Mora."
+urlOriginal: "/documentacion.html"
+portada: "/img/images_fotosarticulos_iglesia-de-trancas.webp"
+grupo: "Documentación"
+orden: 5
+---
+#### Tanto el lugar como la fecha de nacimiento de la artista Lola Mora fueron objeto de controversias y especulaciones por largo tiempo. Ello se debió a la ausencia de documentos originales y a la falta de testimonios fidedignos que confirmaran de manera definitiva la situación.
+
+En una primera instancia se consideró que la escultora había nacido en la antigua villa tucumana de Trancas el 22 de abril de 1867, aunque datos posteriores confirmaron que su verdadero lugar de nacimiento fue en la actual Finca El Dátil, localidad El Tala, Salta, el día 17 de noviembre de 1866.
+
+Quienes sostenían la primera versión exhibían como argumento más contundente el acta de bautismo de Dolores Mora Vega. La misma dice:
+*“En esta Parroquia de S. Joaquín de las Trancas, el día veinte y dos de Junio del año del Señor mil ochocientos sesenta y siete, yo el Cura into. de este beneficio puse óleo y crisma a Dolores de edad de dos meses, hija legítima de Dn. Romualdo Mora y de Da. Regina Vega, fue bautizada por Dn. Ramón Cañabere sugeto aprobado y pa. qe. conste lo firmo. José D. Torres”.*
+
+Además, la familia Mora poseía una casa en el centro mismo del pueblo de Trancas, a pocos metros de la parroquia en la que se realizó el bautismo, y por tanto, durante largo tiempo se asumió que Lola Mora había nacido en esa propiedad. Más adelante, cuando la Intendencia de dicha localidad se separa de Tucumán, Trancas quedaría dentro de los límites de la vecina provincia de Salta. Este hecho habría ayudado a originar la confusión en cuanto a su lugar de nacimiento.
+Volviendo al acta de bautismo, su análisis permite arribar a la conclusión de que Lola ya había ya había sido bautizada por Ramón Cañabere, *“sugeto aprobado”*, y que el cura Ramón Torres sólo se limitó a colocar los bálsamos sacramentales sobre la niña. Un bautismo oficiado por un laico era cosa común si el nacimiento tenía lugar muy lejos de una iglesia y por tanto, dicha intervención podría confirmar la versión de que Lola Mora había nacido en territorio salteño.
+Sin embargo, muchos años más tarde, en 1969, el testimonio de la señora María Luisa Castiñeira de Campanella daría una nueva versión, que involucra no sólo el lugar sino la fecha de nacimiento de Lola. Castiñeira, oriunda de la localidad salteña de El Tala, afirmó en una nota al diario La Gaceta de Tucumán que, de niña, tuvo un encuentro con la artista, quien se encontraba de paso en el pueblo.
+En la conversación mantenida, Mora le habría comentado que en realidad había nacido en la estancia “El Dátil” (situada justamente en El Tala), por entonces perteneciente a los Mora, y no en abril de 1867 sino el 17 de noviembre de 1866. Si el acta de bautismo consigna otra fecha, es, según Castiñeira, porque se remite al mes en el que la familia Mora se había instalado en la casa de la localidad de Trancas.
+Con respecto a la fecha de nacimiento, y de acuerdo a Castiñeira, los Mora vivieron en su estancia de El Tala hasta abril de 1867, cuando Lola, nacida en noviembre, contaba 5 meses. Al parecer temían que una crecida del río Tala aislara su propiedad, de modo que se trasladaron a Trancas y dos meses después, en junio, habrían llevado a Lola a la cercana parroquia a completar el sacramento.
+Antonio Sorich, por su parte, agrega que el motivo verdadero del éxodo a Trancas corresponde a que en abril de 1867 se produjo una sublevación político militar en los departamentos de Metán, Rosario de la Frontera y La Candelaria. Romualdo Mora, por entonces Jefe del “Escuadrón del Tala” decidió el día 21 de abril poner a salvo su familia, haciéndola cruzar el Río Tala, Salta, hacia la finca que había adquirido en Trancas, Tucumán.
+Finalmente, otro de los datos que Sorich agrega para abonar la versión del nacimiento en El Tala, Salta, el 17 de noviembre de 1866, es el registro del “Primer Censo de la Nación Argentina”, realizado el 15 de septiembre de 1869, durante la presidencia de Domingo Faustino Sarmiento. En el tomo 330 figura toda la familia Mora – Vega y allí aparece Dolores Mora con tres años de edad, lo cual corrobora que nació en 1866. Y en la columna que dice: *“Si es argentino, indicar Provincia de su nacimiento”* figuran Dolores Mora (Lola), su madre y todos sus hermanos, nacidos en El Tala, Departamento La Candelaria, Salta.

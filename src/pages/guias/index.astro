@@ -1,0 +1,58 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import Tarjeta from '../../components/Tarjeta.astro';
+import { publicadas, porGrupo } from '../../lib/colecciones';
+
+const entradas = await publicadas('vinos');
+const grupos = porGrupo(entradas);
+const agrupar = true && grupos.length > 1;
+---
+
+<Base titulo="Guías del vino" descripcion="Cómo se cata, cómo se elabora y qué distingue a cada varietal. El material que acompaña a nuestros vinos desde hace más de quince años.">
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Guías del vino' }]} />
+    <Encabezado antetitulo="Aprender" titulo="Guías del vino" bajada="Cómo se cata, cómo se elabora y qué distingue a cada varietal. El material que acompaña a nuestros vinos desde hace más de quince años." />
+
+    {agrupar ? grupos.map(([grupo, items]) => (
+      <section class="grupo">
+        <h2 class="grupo__titulo">{grupo}</h2>
+        <div class="grilla">
+          {items.map((e) => (
+            <Tarjeta
+              href={`/guias/${e.id}/`}
+              titulo={e.data.titulo}
+              descripcion={e.data.descripcion}
+              imagen={e.data.portada}
+              pie="Leer"
+            />
+          ))}
+        </div>
+      </section>
+    )) : (
+      <div class="grilla">
+        {entradas.map((e) => (
+          <Tarjeta
+            href={`/guias/${e.id}/`}
+            titulo={e.data.titulo}
+            descripcion={e.data.descripcion}
+            imagen={e.data.portada}
+            etiqueta={e.data.grupo}
+            pie="Leer"
+          />
+        ))}
+      </div>
+    )}
+  </div>
+</Base>
+
+<style>
+  .grupo + .grupo { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+  .grupo__titulo {
+    font-size: 1.32rem;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--line);
+  }
+</style>

@@ -1,0 +1,277 @@
+---
+import Base from '../layouts/Base.astro';
+import Tarjeta from '../components/Tarjeta.astro';
+import { productosPorCategoria, publicadas } from '../lib/colecciones';
+import { sitio, u } from '../lib/sitio';
+
+const vinos = await productosPorCategoria('vinos');
+const packs = (await productosPorCategoria('regalos')).slice(0, 3);
+const delis = await productosPorCategoria('delicatessen');
+const noticias = (await publicadas('noticias')).slice(0, 3);
+
+const HERO = '/img/images_cajaluz_vinedos_vinos-lola-mora-wine-1.webp';
+const FOTO_FINCA = '/img/images_cajaluz_eventos_tonel-de-bodega-lola-mora-wines.webp';
+const FOTO_LOLA = '/img/images_fotosarticulos_lola-mora-esplendor.webp';
+---
+
+<Base titulo={sitio.nombre} descripcion={sitio.descripcion}>
+  {/* ---------------- Hero ---------------- */}
+  <section class="hero">
+    <div class="hero__foto">
+      <img src={u(HERO)} alt="Viñedos de Finca El Dátil" width="1200" height="900" fetchpriority="high" decoding="async" />
+    </div>
+    <div class="hero__texto">
+      <p class="antetitulo">Finca El Dátil · Argentina</p>
+      <h1>Vinos con historia</h1>
+      <p class="hero__bajada">
+        Arte argentino en cada etiqueta. Malbec y Tempranillo, jamón crudo y salame de llama,
+        elaborados en la finca que dio origen a la marca.
+      </p>
+      <div class="hero__cta">
+        <a class="boton" href={u('/vinos/')}>Ver los vinos</a>
+        <a class="boton boton--linea" href={u('/regalos-empresariales/')}>Regalos corporativos</a>
+      </div>
+      <ul class="hero__puntos">
+        <li>Elaboración propia en Finca El Dátil</li>
+        <li>Estuches corporativos personalizados</li>
+        <li>Más de quince años de historia</li>
+      </ul>
+    </div>
+  </section>
+
+  {/* ---------------- Vinos ---------------- */}
+  <section class="contenedor seccion">
+    <header class="cab-seccion">
+      <div>
+        <p class="antetitulo">Los vinos</p>
+        <h2>Malbec y Tempranillo</h2>
+      </div>
+      <a class="enlace-mas" href={u('/vinos/')}>Ver todos</a>
+    </header>
+    <div class="grilla">
+      {vinos.map((p) => (
+        <Tarjeta
+          href={`/productos/${p.id}/`}
+          titulo={p.data.titulo}
+          descripcion={p.data.descripcion}
+          imagen={p.data.portada}
+          formato="alto"
+          etiqueta="Vino"
+          pie="Ver ficha"
+        />
+      ))}
+      {delis.map((p) => (
+        <Tarjeta
+          href={`/productos/${p.id}/`}
+          titulo={p.data.titulo}
+          descripcion={p.data.descripcion}
+          imagen={p.data.portada}
+          formato="alto"
+          etiqueta="Delicatessen"
+          pie="Ver ficha"
+        />
+      ))}
+    </div>
+    <p class="legal">{sitio.leyendaAlcohol}</p>
+  </section>
+
+  {/* ---------------- Regalos corporativos ---------------- */}
+  <section class="franja">
+    <div class="contenedor">
+      <header class="cab-seccion">
+        <div>
+          <p class="antetitulo antetitulo--claro">Empresas</p>
+          <h2>Regalos corporativos con producción propia</h2>
+          <p class="franja__bajada">
+            Estuches con vino, jamón crudo y salame de llama, en caja escocesa.
+            Personalización con logo y entrega coordinada para fin de año.
+          </p>
+        </div>
+        <a class="enlace-mas" href={u('/regalos-empresariales/')}>Ver los estuches</a>
+      </header>
+      <div class="grilla">
+        {packs.map((p) => (
+          <Tarjeta
+            href={`/productos/${p.id}/`}
+            titulo={p.data.titulo}
+            descripcion={p.data.descripcion}
+            imagen={p.data.portada}
+            formato="alto"
+            etiqueta="Estuche"
+            pie="Ver contenido"
+          />
+        ))}
+      </div>
+      <p class="franja__cta"><a class="boton" href={u('/contacto/')}>Pedir cotización</a></p>
+    </div>
+  </section>
+
+  {/* ---------------- Historia ---------------- */}
+  <section class="contenedor seccion">
+    <p class="antetitulo">La historia</p>
+    <h2 class="titulo-centrado">Dos relatos detrás de cada botella</h2>
+    <div class="duo">
+      <a class="duo__item" href={u('/lola-mora/')}>
+        <img src={u(FOTO_LOLA)} alt="Lola Mora, escultora" width="700" height="520" loading="lazy" decoding="async" />
+        <div class="duo__texto">
+          <h3>Lola Mora, la escultora</h3>
+          <p>
+            La artista tucumana que desafió a su época y dio nombre a la marca.
+            Su biografía, sus obras y la documentación sobre su origen.
+          </p>
+          <span class="duo__mas">Conocer su historia</span>
+        </div>
+      </a>
+      <a class="duo__item" href={u('/finca-el-datil/')}>
+        <img src={u(FOTO_FINCA)} alt="Finca El Dátil" width="700" height="520" loading="lazy" decoding="async" />
+        <div class="duo__texto">
+          <h3>Finca El Dátil</h3>
+          <p>
+            La propiedad donde nacen los vinos y los delicatessen, con sus caballos
+            peruanos de paso y su colección de carruajes antiguos.
+          </p>
+          <span class="duo__mas">Conocer la finca</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  {/* ---------------- Noticias ---------------- */}
+  {noticias.length > 0 && (
+    <section class="contenedor seccion seccion--borde">
+      <header class="cab-seccion">
+        <div>
+          <p class="antetitulo">Novedades</p>
+          <h2>Noticias</h2>
+        </div>
+        <a class="enlace-mas" href={u('/noticias/')}>Ver todas</a>
+      </header>
+      <div class="grilla">
+        {noticias.map((n) => (
+          <Tarjeta
+            href={`/noticias/${n.id}/`}
+            titulo={n.data.titulo}
+            descripcion={n.data.descripcion}
+            imagen={n.data.portada}
+            pie={new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long', year: 'numeric' }).format(n.data.fecha)}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  /* --- hero --- */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    border-bottom: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .hero__foto { position: relative; min-height: 22rem; }
+  .hero__foto img { width: 100%; height: 100%; object-fit: cover; }
+
+  .hero__texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem);
+  }
+  .hero__texto h1 { font-size: clamp(2.3rem, 6vw, 4rem); }
+  .hero__bajada { font-size: clamp(1.02rem, 2vw, 1.2rem); color: var(--muted); max-width: 44ch; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.5rem; }
+  .hero__puntos {
+    list-style: none;
+    margin: 1.5rem 0 0;
+    padding: 1.25rem 0 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 0.45rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .hero__puntos li { padding-left: 1.4rem; position: relative; }
+  .hero__puntos li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62em;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--oro);
+  }
+
+  @media (max-width: 900px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero__foto { min-height: 15rem; max-height: 22rem; }
+  }
+
+  /* --- encabezados de sección --- */
+  .cab-seccion {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.75rem;
+  }
+  .cab-seccion h2 { margin-top: 0.5rem; }
+  .enlace-mas {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 2px;
+  }
+
+  .titulo-centrado { margin: 0.6rem 0 2rem; }
+
+  .seccion--borde { border-top: 1px solid var(--line); }
+
+  .legal {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--vino-ink);
+    background: var(--vino-wash);
+    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
+    border-radius: var(--radio);
+    padding: 0.7rem 1rem;
+    text-align: center;
+  }
+
+  /* --- franja B2B --- */
+  .franja {
+    background: var(--surface-2);
+    border-block: 1px solid var(--line);
+    padding-block: clamp(2.5rem, 7vw, 4.5rem);
+  }
+  .franja__bajada { color: var(--muted); max-width: 56ch; margin-top: 0.7rem; }
+  .franja__cta { margin-top: 2rem; }
+  .antetitulo--claro { color: var(--oro); }
+
+  /* --- duo historia --- */
+  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1.5rem; }
+  .duo__item {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: var(--sombra);
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  }
+  .duo__item:hover { box-shadow: var(--sombra-alta); transform: translateY(-2px); border-color: var(--oro); }
+  .duo__item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--line); }
+  .duo__texto { padding: 1.35rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .duo__texto p { color: var(--muted); font-size: 0.94rem; }
+  .duo__mas { margin-top: 0.4rem; font-size: 0.88rem; font-weight: 600; color: var(--vino-ink); }
+</style>

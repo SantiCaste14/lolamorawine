@@ -1,0 +1,31 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+
+const entrada = await getEntry('paginas', 'politica-de-privacidad');
+const { Content } = entrada ? await render(entrada) : { Content: null };
+const descripcion = entrada?.data.descripcion ?? 'Cómo tratamos los datos personales en lolamorawine.com.ar.';
+---
+
+<Base titulo="Política de privacidad" descripcion={descripcion}>
+  <div class="contenedor-lectura seccion">
+    <Miga items={[{ texto: 'Política de privacidad' }]} />
+    <Encabezado antetitulo="Legal" titulo="Política de privacidad" />
+    <div class="prosa">
+      {Content ? <Content /> : <p>{descripcion}</p>}
+      <hr />
+      <p class="nota">
+        Para ejercer tus derechos de acceso, rectificación o supresión de datos personales
+        (Ley 25.326), escribinos y te respondemos dentro de los plazos legales.
+        La Agencia de Acceso a la Información Pública es el órgano de control de la Ley 25.326
+        y tiene la atribución de atender denuncias por incumplimiento.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .nota { font-size: 0.9rem; color: var(--muted); }
+</style>

@@ -1,0 +1,28 @@
+---
+import { render } from 'astro:content';
+import Articulo from '../../layouts/Articulo.astro';
+import { publicadas, vecinos } from '../../lib/colecciones';
+
+export async function getStaticPaths() {
+  const entradas = await publicadas('vinos');
+  return entradas.map((e) => ({ params: { slug: e.id }, props: { e, entradas } }));
+}
+
+const { e, entradas } = Astro.props;
+const { Content } = await render(e);
+const { anterior, siguiente } = vecinos(entradas, e.id, '/guias');
+const miga = [{ texto: 'Guías del vino', href: '/guias/' }, { texto: e.data.titulo }];
+---
+
+<Articulo
+  titulo={e.data.titulo}
+  descripcion={e.data.descripcion}
+  portada={e.data.portada}
+  grupo={e.data.grupo}
+  fecha={(e.data as any).fecha}
+  miga={miga}
+  anterior={anterior}
+  siguiente={siguiente}
+>
+  <Content />
+</Articulo>

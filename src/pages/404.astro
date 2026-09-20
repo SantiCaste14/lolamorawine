@@ -1,0 +1,52 @@
+---
+import Base from '../layouts/Base.astro';
+import { sitio, u } from '../lib/sitio';
+---
+
+<Base
+  titulo="Página no encontrada"
+  descripcion="La página que buscás no existe o cambió de dirección."
+  noIndex={true}
+>
+  <div class="contenedor seccion nf">
+    <p class="antetitulo">Error 404</p>
+    <h1>Esta página ya no está acá</h1>
+    <div class="filete"></div>
+    <p class="nf__texto">
+      El sitio se renovó y muchas direcciones cambiaron. Probá desde alguna de estas secciones.
+    </p>
+    <ul class="nf__enlaces">
+      {sitio.navegacion.map((i) => (
+        <li><a href={u(i.href)}>{i.texto}</a></li>
+      ))}
+      <li><a href={u('/noticias/')}>Noticias</a></li>
+      <li><a href={u('/contacto/')}>Contacto</a></li>
+    </ul>
+    <p class="nf__cta"><a class="boton" href={u('/')}>Volver al inicio</a></p>
+  </div>
+</Base>
+
+<style>
+  .nf { max-width: 44rem; display: flex; flex-direction: column; gap: 1rem; }
+  .nf__texto { color: var(--muted); }
+  .nf__enlaces {
+    list-style: none;
+    margin: 1rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  .nf__enlaces a {
+    display: inline-block;
+    padding: 0.45rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: var(--ink-2);
+    background: var(--surface);
+  }
+  .nf__enlaces a:hover { border-color: var(--vino); color: var(--vino-ink); }
+  .nf__cta { margin-top: 1.5rem; }
+</style>

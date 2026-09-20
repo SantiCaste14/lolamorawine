@@ -1,0 +1,44 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import Tarjeta from '../../components/Tarjeta.astro';
+import { publicadas } from '../../lib/colecciones';
+import { render } from 'astro:content';
+
+const todas = await publicadas('paginas');
+const principal = todas.find((p) => p.id === 'quienes-somos');
+const otras = todas.filter((p) => p.id !== 'quienes-somos' && p.id !== 'politica-de-privacidad');
+const { Content } = principal ? await render(principal) : { Content: null };
+const descripcion = principal?.data.descripcion ?? 'Quiénes somos en Lola Mora Wine.';
+---
+
+<Base titulo="Nosotros" descripcion={descripcion}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Nosotros' }]} />
+    <Encabezado antetitulo="La empresa" titulo="Quiénes somos" bajada={descripcion} />
+    {Content && <div class="prosa"><Content /></div>}
+
+    {otras.length > 0 && (
+      <section class="bloque">
+        <h2>Más sobre la marca</h2>
+        <div class="grilla">
+          {otras.map((p) => (
+            <Tarjeta
+              href={`/nosotros/${p.id}/`}
+              titulo={p.data.titulo}
+              descripcion={p.data.descripcion}
+              imagen={p.data.portada}
+              pie="Leer"
+            />
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+</Base>
+
+<style>
+  .bloque { margin-top: clamp(3rem, 6vw, 4rem); padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  .bloque h2 { margin-bottom: 1.5rem; }
+</style>

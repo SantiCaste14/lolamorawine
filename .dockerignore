@@ -1,0 +1,9 @@
+node_modules
+dist
+.astro
+capturas
+.git
+.github
+.env
+.env.*
+*.log

@@ -1,0 +1,115 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import { sitio, u } from '../../lib/sitio';
+
+const descripcion =
+  'Escribinos para comprar vinos y delicatessen, o para pedir una cotización de regalos corporativos.';
+
+const waLimpio = sitio.contacto.whatsapp.replace(/\D/g, '');
+const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
+---
+
+<Base titulo="Contacto" descripcion={descripcion}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Contacto' }]} />
+    <Encabezado antetitulo="Hablemos" titulo="Contacto" bajada={descripcion} />
+
+    <div class="cols">
+      <section class="via">
+        <h2>Comprar o consultar</h2>
+        <p class="via__texto">
+          Para pedidos de vinos y delicatessen, disponibilidad y precios vigentes.
+        </p>
+        <div class="via__acciones">
+          {sitio.contacto.email && (
+            <a class="boton" href={`mailto:${sitio.contacto.email}?subject=${asunto}`}>
+              Escribir por email
+            </a>
+          )}
+          {waLimpio && (
+            <a class="boton boton--linea" href={`https://wa.me/${waLimpio}`} rel="noopener" target="_blank">
+              WhatsApp
+            </a>
+          )}
+        </div>
+      </section>
+
+      <section class="via via--destacada">
+        <h2>Regalos corporativos</h2>
+        <p class="via__texto">
+          Contanos cantidad, presupuesto por unidad, fecha de entrega y destinos,
+          y te armamos una propuesta. Incluí si querés personalización con logo.
+        </p>
+        <div class="via__acciones">
+          {sitio.contacto.email && (
+            <a
+              class="boton"
+              href={`mailto:${sitio.contacto.email}?subject=${encodeURIComponent('Cotización de regalos corporativos')}&body=${encodeURIComponent(
+                'Empresa:\nCUIT:\nContacto:\nCantidad estimada:\nPresupuesto por unidad:\nFecha de entrega:\nDestino(s):\n¿Personalización con logo?:\n'
+              )}`}
+            >
+              Pedir cotización
+            </a>
+          )}
+        </div>
+      </section>
+    </div>
+
+    <section class="datos">
+      <h2>Datos de la empresa</h2>
+      <dl>
+        {sitio.empresa.razonSocial && (<><dt>Razón social</dt><dd>{sitio.empresa.razonSocial}</dd></>)}
+        {sitio.empresa.cuit && (<><dt>CUIT</dt><dd>{sitio.empresa.cuit}</dd></>)}
+        {sitio.empresa.domicilio && (<><dt>Domicilio</dt><dd>{sitio.empresa.domicilio}</dd></>)}
+        {sitio.empresa.inv && (<><dt>Inscripción INV</dt><dd>{sitio.empresa.inv}</dd></>)}
+        {sitio.contacto.email && (<><dt>Email</dt><dd><a href={`mailto:${sitio.contacto.email}`}>{sitio.contacto.email}</a></dd></>)}
+        {sitio.contacto.telefono && (<><dt>Teléfono</dt><dd>{sitio.contacto.telefono}</dd></>)}
+      </dl>
+      {!sitio.empresa.cuit && (
+        <p class="pendiente">
+          Los datos fiscales se publican al completarse la inscripción.
+          Mientras tanto, escribinos por email y te los enviamos.
+        </p>
+      )}
+      <p class="arrep">
+        ¿Ya compraste y querés arrepentirte?
+        <a href={u('/boton-de-arrepentimiento/')}>Botón de arrepentimiento</a>
+      </p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 1.5rem; }
+
+  .via {
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+    padding: 1.6rem 1.7rem 1.8rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+  }
+  .via--destacada { border-color: var(--oro); background: var(--oro-wash); }
+  .via h2 { font-size: 1.2rem; }
+  .via__texto { color: var(--muted); font-size: 0.95rem; }
+  .via__acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
+
+  .datos { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 2rem; border-top: 1px solid var(--line); }
+  .datos h2 { font-size: 1.2rem; margin-bottom: 1.1rem; }
+  .datos dl {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1.5rem;
+    margin: 0;
+    font-size: 0.95rem;
+    max-width: 44rem;
+  }
+  .datos dt { color: var(--muted); }
+  .datos dd { margin: 0; font-weight: 500; }
+  .pendiente { margin-top: 1rem; font-size: 0.9rem; color: var(--muted); max-width: 56ch; }
+  .arrep { margin-top: 1.5rem; font-size: 0.9rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
+</style>

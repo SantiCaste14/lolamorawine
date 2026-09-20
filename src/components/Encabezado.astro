@@ -1,0 +1,15 @@
+---
+interface Props { antetitulo?: string; titulo: string; bajada?: string }
+const { antetitulo, titulo, bajada } = Astro.props;
+---
+<header class="enc">
+  {antetitulo && <p class="antetitulo">{antetitulo}</p>}
+  <h1>{titulo}</h1>
+  <div class="filete"></div>
+  {bajada && <p class="bajada">{bajada}</p>}
+</header>
+
+<style>
+  .enc { display: flex; flex-direction: column; gap: 0.85rem; margin-bottom: 2.5rem; }
+  .bajada { font-size: clamp(1rem, 2vw, 1.14rem); color: var(--muted); max-width: 62ch; }
+</style>

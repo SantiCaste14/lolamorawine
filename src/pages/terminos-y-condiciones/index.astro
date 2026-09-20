@@ -1,0 +1,91 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import { sitio, u } from '../../lib/sitio';
+
+const descripcion =
+  'Condiciones de uso del sitio, de venta de productos y derechos del consumidor en Lola Mora Wine.';
+const faltanDatos = !sitio.empresa.razonSocial || !sitio.empresa.cuit;
+---
+
+<Base titulo="Términos y condiciones" descripcion={descripcion}>
+  <div class="contenedor-lectura seccion">
+    <Miga items={[{ texto: 'Términos y condiciones' }]} />
+    <Encabezado antetitulo="Legal" titulo="Términos y condiciones" bajada={descripcion} />
+
+    {faltanDatos && (
+      <aside class="pendiente">
+        <strong>Pendiente de completar.</strong> La razón social, el CUIT y el domicilio se cargan
+        en <code>src/lib/sitio.ts</code> y aparecen automáticamente en esta página. Revisá el texto
+        con un profesional antes de habilitar la venta online.
+      </aside>
+    )}
+
+    <div class="prosa">
+      <h2>1. Titular del sitio</h2>
+      <p>
+        {sitio.empresa.razonSocial || 'Lola Mora Wine'}
+        {sitio.empresa.cuit ? `, CUIT ${sitio.empresa.cuit}` : ''}
+        {sitio.empresa.domicilio ? `, con domicilio en ${sitio.empresa.domicilio}` : ''}
+        , es el titular de este sitio.
+      </p>
+
+      <h2>2. Venta de bebidas alcohólicas</h2>
+      <p>
+        <strong>{sitio.leyendaAlcohol}</strong> Conforme a la Ley 24.788, está prohibida la venta
+        de bebidas alcohólicas a menores de 18 años. Al ingresar al sitio declarás ser mayor de edad.
+      </p>
+
+      <h2>3. Precios y disponibilidad</h2>
+      <p>
+        Los precios se expresan en pesos argentinos e incluyen IVA. La disponibilidad está sujeta a
+        stock. Cuando un producto no muestra precio, significa que debe consultarse antes de comprar.
+      </p>
+
+      <h2>4. Derecho de revocación</h2>
+      <p>
+        Podés revocar tu compra dentro de los 10 días corridos, sin costo y sin expresar motivo
+        (artículo 34, Ley 24.240). Ver el
+        <a href={u('/boton-de-arrepentimiento/')}>botón de arrepentimiento</a>.
+      </p>
+
+      <h2>5. Envíos</h2>
+      <p>
+        El costo y el plazo de envío se informan antes de confirmar la compra. Los productos que
+        contienen vidrio se despachan con embalaje reforzado; algunas zonas pueden tener
+        restricciones para el transporte de bebidas alcohólicas.
+      </p>
+
+      <h2>6. Propiedad intelectual</h2>
+      <p>
+        La marca Lola Mora, los textos, las fotografías y el diseño de este sitio son propiedad de
+        su titular. Los contenidos históricos sobre la escultora Lola Mora se publican con fines
+        informativos y culturales.
+      </p>
+
+      <h2>7. Datos personales</h2>
+      <p>
+        El tratamiento de datos se rige por nuestra
+        <a href={u('/politica-de-privacidad/')}>política de privacidad</a>, conforme a la Ley 25.326.
+      </p>
+
+      <h2>8. Jurisdicción</h2>
+      <p>
+        Estas condiciones se rigen por la ley argentina. Para cualquier controversia son competentes
+        los tribunales ordinarios del domicilio del consumidor.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .pendiente {
+    background: var(--oro-wash);
+    border: 1px solid color-mix(in srgb, var(--oro) 40%, transparent);
+    border-radius: var(--radio);
+    padding: 1rem 1.2rem;
+    font-size: 0.92rem;
+    margin-bottom: 2rem;
+  }
+</style>

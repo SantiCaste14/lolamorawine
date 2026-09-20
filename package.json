@@ -1,0 +1,27 @@
+{
+  "name": "lolamorawine",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Sitio institucional y catálogo de Lola Mora Wine",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "validar": "node scripts/validar.mjs",
+    "capturas": "node scripts/capturas.mjs"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
+    "astro": "^5.14.1",
+    "sharp": "^0.34.4"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "lightningcss": "^1.33.0",
+    "playwright": "^1.63.0",
+    "typescript": "^5.9.3"
+  }
+}

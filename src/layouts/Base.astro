@@ -1,0 +1,104 @@
+---
+import '../styles/global.css';
+import Cabecera from '../components/Cabecera.astro';
+import Pie from '../components/Pie.astro';
+import ControlEdad from '../components/ControlEdad.astro';
+import { sitio, u } from '../lib/sitio';
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  /** Ruta de la imagen social, relativa a /public. */
+  imagen?: string;
+  /** "website" para índices, "article" para contenido. */
+  tipo?: 'website' | 'article';
+  /** Datos estructurados extra (schema.org) ya serializados. */
+  schema?: Record<string, unknown> | null;
+  /** No indexar esta página. */
+  noIndex?: boolean;
+}
+
+const {
+  titulo,
+  descripcion,
+  imagen = '/img/images_fotosarticulos_escudo-lola-mora-wine.jpg',
+  tipo = 'website',
+  schema = null,
+  noIndex = false,
+} = Astro.props;
+
+const tituloCompleto = titulo === sitio.nombre ? titulo : `${titulo} | ${sitio.nombre}`;
+const canonica = new URL(Astro.url.pathname, Astro.site).href;
+const imagenAbsoluta = new URL(u(imagen), Astro.site).href;
+
+const organizacion = {
+  '@context': 'https://schema.org',
+  '@type': 'Winery',
+  name: sitio.nombre,
+  description: sitio.descripcion,
+  url: new URL(u('/'), Astro.site).href,
+  image: imagenAbsoluta,
+  slogan: `${sitio.lema}. ${sitio.bajada}.`,
+  address: { '@type': 'PostalAddress', addressCountry: 'AR' },
+  ...(sitio.contacto.email ? { email: sitio.contacto.email } : {}),
+};
+---
+
+<!doctype html>
+<html lang="es-AR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{tituloCompleto}</title>
+    <meta name="description" content={descripcion} />
+    <link rel="canonical" href={canonica} />
+    {noIndex && <meta name="robots" content="noindex, follow" />}
+
+    <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#a72023" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#14110f" media="(prefers-color-scheme: dark)" />
+
+    <meta property="og:site_name" content={sitio.nombre} />
+    <meta property="og:type" content={tipo} />
+    <meta property="og:locale" content="es_AR" />
+    <meta property="og:title" content={tituloCompleto} />
+    <meta property="og:description" content={descripcion} />
+    <meta property="og:url" content={canonica} />
+    <meta property="og:image" content={imagenAbsoluta} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={tituloCompleto} />
+    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:image" content={imagenAbsoluta} />
+
+    <link rel="icon" href={u('/favicon.svg')} type="image/svg+xml" />
+    <link rel="sitemap" href={u('/sitemap-index.xml')} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Petrona:ital,wght@0,400;0,500;0,600;1,400&family=Archivo:wght@400;500;600;700&display=swap"
+    />
+
+    <script set:html={JSON.stringify(organizacion)} type="application/ld+json" is:inline />
+    {schema && <script set:html={JSON.stringify(schema)} type="application/ld+json" is:inline />}
+
+    {/* Aplica el tema guardado antes de pintar, para que no haya parpadeo. */}
+    <script is:inline>
+      try {
+        const t = localStorage.getItem('lm-tema');
+        if (t === 'dark' || t === 'light') document.documentElement.dataset.theme = t;
+      } catch (e) { /* almacenamiento bloqueado: queda el tema del sistema */ }
+    </script>
+  </head>
+
+  <body>
+    <a class="salto-contenido" href="#contenido">Saltar al contenido</a>
+    <ControlEdad />
+    <Cabecera />
+    <main id="contenido">
+      <slot />
+    </main>
+    <Pie />
+  </body>
+</html>

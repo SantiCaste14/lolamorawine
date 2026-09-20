@@ -1,0 +1,86 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import { sitio } from '../../lib/sitio';
+
+const descripcion =
+  'Revocá tu compra dentro de los 10 días corridos, sin costo y sin necesidad de registrarte. Disposición 954/2025 y Ley 24.240.';
+
+const asunto = encodeURIComponent('BOTÓN DE ARREPENTIMIENTO - Solicitud de revocación');
+const cuerpo = encodeURIComponent(
+  [
+    'Solicito la revocación de la siguiente compra:',
+    '',
+    'Nombre y apellido:',
+    'DNI:',
+    'Email de contacto:',
+    'Teléfono:',
+    'Número de pedido o comprobante:',
+    'Fecha de la compra:',
+    'Producto(s):',
+    '',
+    'Entiendo que recibiré un código de identificación de esta solicitud dentro de las 24 horas.',
+  ].join('\n')
+);
+---
+
+<Base titulo="Botón de arrepentimiento" descripcion={descripcion}>
+  <div class="contenedor-lectura seccion">
+    <Miga items={[{ texto: 'Botón de arrepentimiento' }]} />
+    <Encabezado
+      antetitulo="Defensa del consumidor"
+      titulo="Botón de arrepentimiento"
+      bajada={descripcion}
+    />
+
+    <div class="prosa">
+      <p>
+        Si compraste a distancia, tenés derecho a revocar la aceptación dentro de los
+        <strong>10 días corridos</strong> contados desde la entrega del producto o la celebración
+        del contrato, lo que ocurra después. La revocación es
+        <strong>sin costo y sin necesidad de expresar motivo</strong> (artículo 34 de la Ley 24.240).
+      </p>
+
+      <h2>Cómo ejercerlo</h2>
+      <p>
+        No hace falta registrarse ni hacer ningún trámite previo. Enviá la solicitud y te
+        respondemos <strong>dentro de las 24 horas</strong> con un código de identificación, y
+        adoptamos las medidas para hacerla efectiva.
+      </p>
+
+      {sitio.contacto.email && (
+        <p class="cta">
+          <a class="boton" href={`mailto:${sitio.contacto.email}?subject=${asunto}&body=${cuerpo}`}>
+            Solicitar la revocación
+          </a>
+        </p>
+      )}
+
+      <h2>Qué informar</h2>
+      <ul>
+        <li>Nombre, apellido y DNI</li>
+        <li>Email y teléfono de contacto</li>
+        <li>Número de pedido o comprobante</li>
+        <li>Fecha de la compra y productos incluidos</li>
+      </ul>
+
+      <h2>Excepción</h2>
+      <p>
+        El derecho no aplica cuando el producto ya fue consumido o utilizado y, con posterioridad,
+        se pretende ejercer la revocación.
+      </p>
+
+      <hr />
+      <p class="nota">
+        Esta página cumple con la Disposición 954/2025 de la Subsecretaría de Defensa del Consumidor
+        y Lealtad Comercial, y con la Ley 24.240 de Defensa del Consumidor.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .cta { margin-block: 1.5rem; }
+  .nota { font-size: 0.88rem; color: var(--muted); }
+</style>

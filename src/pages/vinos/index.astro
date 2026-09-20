@@ -1,0 +1,73 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import Tarjeta from '../../components/Tarjeta.astro';
+import { productosPorCategoria, publicadas } from '../../lib/colecciones';
+import { sitio, u } from '../../lib/sitio';
+
+const vinos = await productosPorCategoria('vinos');
+const guias = (await publicadas('vinos')).slice(0, 6);
+const descripcion =
+  'Malbec y Tempranillo de Finca El Dátil. Vinos finos argentinos con arte argentino en cada etiqueta.';
+---
+
+<Base titulo="Vinos" descripcion={descripcion}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Vinos' }]} />
+    <Encabezado antetitulo="Nuestros vinos" titulo="Vinos con historia" bajada={descripcion} />
+
+    <div class="grilla">
+      {vinos.map((p) => (
+        <Tarjeta
+          href={`/productos/${p.id}/`}
+          titulo={p.data.titulo}
+          descripcion={p.data.descripcion}
+          imagen={p.data.portada}
+          formato="alto"
+          etiqueta="Vino"
+          pie={p.data.precio ? undefined : 'Consultar'}
+        />
+      ))}
+    </div>
+
+    <p class="legal">{sitio.leyendaAlcohol}</p>
+
+    <section class="bloque">
+      <h2>Para conocerlos mejor</h2>
+      <p class="bloque__bajada">
+        Material sobre cata, varietales y elaboración que acompaña a nuestros vinos desde hace más de quince años.
+      </p>
+      <div class="grilla">
+        {guias.map((g) => (
+          <Tarjeta
+            href={`/guias/${g.id}/`}
+            titulo={g.data.titulo}
+            descripcion={g.data.descripcion}
+            imagen={g.data.portada}
+            etiqueta={g.data.grupo}
+            pie="Leer"
+          />
+        ))}
+      </div>
+      <p class="bloque__mas"><a class="boton boton--linea" href={u('/guias/')}>Ver todas las guías</a></p>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .legal {
+    margin-top: 2rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--vino-ink);
+    background: var(--vino-wash);
+    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
+    border-radius: var(--radio);
+    padding: 0.7rem 1rem;
+    text-align: center;
+  }
+  .bloque { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  .bloque__bajada { color: var(--muted); max-width: 60ch; margin: 0.5rem 0 1.75rem; }
+  .bloque__mas { margin-top: 2rem; }
+</style>

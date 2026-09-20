@@ -1,0 +1,56 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import Tarjeta from '../../components/Tarjeta.astro';
+import { productosPorCategoria, publicadas } from '../../lib/colecciones';
+
+const productos = await productosPorCategoria('delicatessen');
+const articulos = await publicadas('delicatessen');
+const descripcion =
+  'Jamón crudo serrano, salame de llama y aceite de oliva extra virgen de elaboración artesanal en Finca El Dátil.';
+---
+
+<Base titulo="Delicatessen" descripcion={descripcion}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Delicatessen' }]} />
+    <Encabezado antetitulo="Delicatessen" titulo="Elaboración artesanal" bajada={descripcion} />
+
+    <div class="grilla">
+      {productos.map((p) => (
+        <Tarjeta
+          href={`/productos/${p.id}/`}
+          titulo={p.data.titulo}
+          descripcion={p.data.descripcion}
+          imagen={p.data.portada}
+          formato="alto"
+          etiqueta="Producto"
+          pie={p.data.precio ? undefined : 'Consultar'}
+        />
+      ))}
+    </div>
+
+    <section class="bloque">
+      <h2>Cómo se elaboran</h2>
+      <p class="bloque__bajada">
+        El proceso del jamón crudo, las cualidades del salame de llama y la cosecha de olivas, contados en detalle.
+      </p>
+      <div class="grilla">
+        {articulos.map((a) => (
+          <Tarjeta
+            href={`/delicatessen/${a.id}/`}
+            titulo={a.data.titulo}
+            descripcion={a.data.descripcion}
+            imagen={a.data.portada}
+            pie="Leer"
+          />
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .bloque { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  .bloque__bajada { color: var(--muted); max-width: 60ch; margin: 0.5rem 0 1.75rem; }
+</style>

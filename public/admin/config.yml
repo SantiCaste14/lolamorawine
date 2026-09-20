@@ -1,0 +1,100 @@
+# Panel de contenido. Documentación de uso: CONTENIDO.md en la raíz del repo.
+backend:
+  name: github
+  repo: SantiagoCastellanos14/lolamorawine
+  branch: main
+  site_domain: santiagocastellanos14.github.io
+
+publish_mode: simple
+media_folder: public/img
+public_folder: /img
+locale: es
+
+collections:
+  - name: productos
+    label: Productos
+    label_singular: producto
+    folder: src/content/productos
+    create: true
+    format: yaml-frontmatter
+    slug: '{{slug}}'
+    summary: '{{titulo}}'
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: descripcion, label: Descripción corta, widget: text, hint: 'Entre 40 y 200 caracteres. Es lo que aparece en Google.' }
+      - name: categoria
+        label: Categoría
+        widget: select
+        options: [{ label: Vinos, value: vinos }, { label: Delicatessen, value: delicatessen }, { label: Regalos corporativos, value: regalos }]
+      - { name: portada, label: Foto principal, widget: image, required: false }
+      - { name: precio, label: Precio en pesos, widget: number, required: false, hint: 'Dejar vacío para que muestre "Consultar precio".' }
+      - { name: mercadolibre, label: Link a MercadoLibre, widget: string, required: false }
+      - { name: contenido, label: Qué incluye el pack, widget: list, required: false }
+      - { name: anada, label: Añada, widget: string, required: false }
+      - { name: varietal, label: Varietal, widget: string, required: false }
+      - { name: graduacion, label: Graduación alcohólica, widget: string, required: false }
+      - { name: volumen, label: Contenido neto, widget: string, required: false }
+      - { name: origen, label: Origen, widget: string, required: false }
+      - { name: disponible, label: Disponible, widget: boolean, default: true }
+      - { name: orden, label: Orden en la grilla, widget: number, default: 99 }
+      - { name: borrador, label: Borrador (no se publica), widget: boolean, default: false }
+      - { name: body, label: Texto de la ficha, widget: markdown }
+
+  - name: noticias
+    label: Noticias
+    label_singular: noticia
+    folder: src/content/noticias
+    create: true
+    format: yaml-frontmatter
+    slug: '{{year}}-{{month}}-{{slug}}'
+    sortable_fields: [fecha, titulo]
+    fields:
+      - { name: titulo, label: Título, widget: string }
+      - { name: descripcion, label: Copete, widget: text }
+      - { name: fecha, label: Fecha, widget: datetime, format: 'YYYY-MM-DD', date_format: 'DD/MM/YYYY', time_format: false }
+      - { name: portada, label: Foto principal, widget: image, required: false }
+      - { name: orden, label: Orden, widget: number, default: 99 }
+      - { name: borrador, label: Borrador, widget: boolean, default: false }
+      - { name: body, label: Texto, widget: markdown }
+
+  - name: historia
+    label: Lola Mora (historia)
+    folder: src/content/historia
+    create: true
+    format: yaml-frontmatter
+    fields: &editorial
+      - { name: titulo, label: Título, widget: string }
+      - { name: descripcion, label: Descripción corta, widget: text }
+      - { name: grupo, label: Subsección, widget: string, required: false }
+      - { name: portada, label: Foto principal, widget: image, required: false }
+      - { name: orden, label: Orden, widget: number, default: 99 }
+      - { name: borrador, label: Borrador, widget: boolean, default: false }
+      - { name: body, label: Texto, widget: markdown }
+
+  - name: finca
+    label: Finca El Dátil
+    folder: src/content/finca
+    create: true
+    format: yaml-frontmatter
+    fields: *editorial
+
+  - name: vinos
+    label: Guías del vino
+    folder: src/content/vinos
+    create: true
+    format: yaml-frontmatter
+    fields: *editorial
+
+  - name: delicatessen
+    label: Delicatessen (artículos)
+    folder: src/content/delicatessen
+    create: true
+    format: yaml-frontmatter
+    fields: *editorial
+
+  - name: paginas
+    label: Páginas institucionales
+    folder: src/content/paginas
+    create: true
+    format: yaml-frontmatter
+    fields: *editorial

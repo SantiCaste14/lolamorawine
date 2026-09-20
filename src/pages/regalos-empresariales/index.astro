@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import Tarjeta from '../../components/Tarjeta.astro';
+import { productosPorCategoria } from '../../lib/colecciones';
+import { u } from '../../lib/sitio';
+
+const packs = await productosPorCategoria('regalos');
+const descripcion =
+  'Estuches corporativos con vino, jamón crudo y salame de llama. Personalización con logo, entrega coordinada y cotización por volumen.';
+
+const pasos = [
+  { n: 1, t: 'Contanos qué necesitás', d: 'Cantidad, presupuesto por unidad, fecha de entrega y destinos.' },
+  { n: 2, t: 'Armamos la propuesta', d: 'Te enviamos opciones de estuche con precio por volumen.' },
+  { n: 3, t: 'Personalizamos', d: 'Logo en la caja, tarjeta con tu mensaje y packaging a medida.' },
+  { n: 4, t: 'Entregamos', d: 'En un punto central o al domicilio de cada persona.' },
+];
+---
+
+<Base titulo="Regalos corporativos" descripcion={descripcion}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: 'Regalos corporativos' }]} />
+    <Encabezado
+      antetitulo="Empresas"
+      titulo="Regalos corporativos con producción propia"
+      bajada={descripcion}
+    />
+
+    <div class="aviso">
+      <p><strong>Pedidos hasta el 15 de noviembre para entrega en diciembre.</strong> La producción de estuches es limitada y se reserva por orden de confirmación.</p>
+      <a class="boton" href={u('/contacto/')}>Pedir cotización</a>
+    </div>
+
+    <div class="grilla">
+      {packs.map((p) => (
+        <Tarjeta
+          href={`/productos/${p.id}/`}
+          titulo={p.data.titulo}
+          descripcion={p.data.descripcion}
+          imagen={p.data.portada}
+          formato="alto"
+          etiqueta="Estuche"
+          pie="Ver contenido"
+        />
+      ))}
+    </div>
+
+    <section class="bloque">
+      <h2>Cómo funciona</h2>
+      <ol class="pasos">
+        {pasos.map((p) => (
+          <li>
+            <span class="pasos__n">{String(p.n).padStart(2, '0')}</span>
+            <strong>{p.t}</strong>
+            <span class="pasos__d">{p.d}</span>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </div>
+</Base>
+
+<style>
+  .aviso {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    background: var(--oro-wash);
+    border: 1px solid color-mix(in srgb, var(--oro) 35%, transparent);
+    border-radius: var(--radio);
+    padding: 1.1rem 1.3rem;
+    margin-bottom: 2.5rem;
+  }
+  .aviso p { max-width: 52ch; font-size: 0.95rem; }
+
+  .bloque { margin-top: clamp(3rem, 6vw, 4.5rem); padding-top: 2.5rem; border-top: 1px solid var(--line); }
+  .pasos {
+    list-style: none;
+    margin: 1.75rem 0 0;
+    padding: 0;
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  .pasos li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    padding: 1.1rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+  }
+  .pasos__n {
+    font-family: Petrona, serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--vino);
+    line-height: 1;
+  }
+  .pasos__d { font-size: 0.9rem; color: var(--muted); }
+</style>

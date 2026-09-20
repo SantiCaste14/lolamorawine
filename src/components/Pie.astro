@@ -1,0 +1,105 @@
+---
+import { sitio, u } from '../lib/sitio';
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="contenedor pie__grilla">
+    <div class="pie__marca">
+      <p class="pie__nombre">Lola Mora <span>Wine</span></p>
+      <p class="pie__lema">{sitio.lema}. {sitio.bajada}.</p>
+      {sitio.contacto.email && (
+        <p class="pie__dato"><a href={`mailto:${sitio.contacto.email}`}>{sitio.contacto.email}</a></p>
+      )}
+      {sitio.contacto.telefono && <p class="pie__dato">{sitio.contacto.telefono}</p>}
+    </div>
+
+    {sitio.pie.map((col) => (
+      <nav class="pie__col" aria-label={col.titulo}>
+        <h2 class="pie__titulo">{col.titulo}</h2>
+        <ul>
+          {col.enlaces.map((e) => (
+            <li><a href={u(e.href)}>{e.texto}</a></li>
+          ))}
+        </ul>
+      </nav>
+    ))}
+  </div>
+
+  <div class="contenedor pie__legal">
+    <p class="pie__alcohol">{sitio.leyendaAlcohol}</p>
+    <div class="pie__fila">
+      <p>&copy; {anio} {sitio.nombre}{sitio.empresa.razonSocial ? ` — ${sitio.empresa.razonSocial}` : ''}{sitio.empresa.cuit ? ` — CUIT ${sitio.empresa.cuit}` : ''}</p>
+      <p><a href={u('/boton-de-arrepentimiento/')}>Botón de arrepentimiento</a></p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    margin-top: auto;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .pie__grilla {
+    display: grid;
+    gap: clamp(1.75rem, 4vw, 3rem);
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    padding-bottom: 2.5rem;
+  }
+
+  .pie__nombre {
+    font-family: Petrona, Georgia, serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
+  .pie__nombre span {
+    font-family: Archivo, sans-serif;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--vino);
+    vertical-align: middle;
+  }
+  .pie__lema { color: var(--muted); font-size: 0.92rem; margin-top: 0.4rem; max-width: 30ch; }
+  .pie__dato { font-size: 0.9rem; margin-top: 0.6rem; }
+
+  .pie__titulo {
+    font-family: Archivo, sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 0.85rem;
+  }
+  .pie__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
+  .pie__col a { color: var(--ink-2); text-decoration: none; font-size: 0.92rem; }
+  .pie__col a:hover { color: var(--vino-ink); text-decoration: underline; }
+
+  .pie__legal { border-top: 1px solid var(--line); padding-block: 1.4rem 2rem; }
+  .pie__alcohol {
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--vino-ink);
+    background: var(--vino-wash);
+    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
+    border-radius: var(--radio);
+    padding: 0.6rem 0.9rem;
+    text-align: center;
+    margin-bottom: 1.1rem;
+  }
+  .pie__fila {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 1.5rem;
+    justify-content: space-between;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .pie__fila a { color: var(--muted); }
+</style>

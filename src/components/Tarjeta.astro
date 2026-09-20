@@ -1,0 +1,77 @@
+---
+import { u } from '../lib/sitio';
+
+interface Props {
+  href: string;
+  titulo: string;
+  descripcion?: string;
+  imagen?: string;
+  etiqueta?: string;
+  pie?: string;
+  /** Recorte de la imagen. "alto" para retratos de producto. */
+  formato?: 'ancho' | 'alto';
+}
+const { href, titulo, descripcion, imagen, etiqueta, pie, formato = 'ancho' } = Astro.props;
+---
+
+<article class="tarjeta">
+  <a class="enlace" href={u(href)}>
+    {imagen ? (
+      <div class={`medio medio--${formato}`}>
+        <img src={u(imagen)} alt="" loading="lazy" decoding="async" width="600" height="450" />
+      </div>
+    ) : (
+      <div class={`medio medio--${formato} medio--vacio`} aria-hidden="true"><span>Lola Mora</span></div>
+    )}
+    <div class="cuerpo">
+      {etiqueta && <p class="etiqueta">{etiqueta}</p>}
+      <h3 class="titulo">{titulo}</h3>
+      {descripcion && <p class="desc">{descripcion}</p>}
+      {pie && <p class="pie">{pie}</p>}
+    </div>
+  </a>
+</article>
+
+<style>
+  .enlace { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; }
+
+  .medio { overflow: hidden; background: var(--surface-2); border-bottom: 1px solid var(--line); }
+  .medio--ancho { aspect-ratio: 4 / 3; }
+  .medio--alto { aspect-ratio: 1 / 1; }
+  .medio img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
+  .tarjeta:hover .medio img { transform: scale(1.035); }
+
+  .medio--vacio {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--vino-wash), var(--oro-wash));
+  }
+  .medio--vacio span {
+    font-family: Petrona, Georgia, serif;
+    font-size: 1.1rem;
+    color: var(--vino-ink);
+    opacity: 0.55;
+  }
+
+  .cuerpo { padding: 1.05rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+
+  .etiqueta {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--oro);
+  }
+  .titulo { font-size: 1.1rem; line-height: 1.22; }
+  .desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .pie { margin-top: auto; padding-top: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--vino-ink); }
+</style>

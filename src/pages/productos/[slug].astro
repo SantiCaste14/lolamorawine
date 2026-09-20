@@ -1,0 +1,217 @@
+---
+import { render, getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Miga from '../../components/Miga.astro';
+import { sitio, u, categorias } from '../../lib/sitio';
+
+export async function getStaticPaths() {
+  const productos = await getCollection('productos', ({ data }: any) => data.borrador !== true);
+  return productos.map((p) => ({ params: { slug: p.id }, props: { p } }));
+}
+
+const { p } = Astro.props;
+const { Content } = await render(p);
+const d = p.data;
+const cat = categorias[d.categoria];
+
+const precioTexto = d.precio
+  ? new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS', maximumFractionDigits: 0 }).format(d.precio)
+  : null;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: d.titulo,
+  description: d.descripcion,
+  category: cat.nombre,
+  ...(d.portada ? { image: new URL(u(d.portada), Astro.site).href } : {}),
+  brand: { '@type': 'Brand', name: 'Lola Mora' },
+  offers: {
+    '@type': 'Offer',
+    priceCurrency: 'ARS',
+    availability: d.disponible
+      ? 'https://schema.org/InStock'
+      : 'https://schema.org/OutOfStock',
+    url: d.mercadolibre ?? new URL(Astro.url.pathname, Astro.site).href,
+    ...(d.precio ? { price: d.precio } : {}),
+  },
+};
+
+const fichaVino = [
+  ['Añada', d.anada],
+  ['Varietal', d.varietal],
+  ['Graduación alcohólica', d.graduacion],
+  ['Contenido neto', d.volumen],
+  ['Origen', d.origen],
+].filter(([, v]) => Boolean(v)) as [string, string][];
+
+const esVino = d.categoria === 'vinos';
+
+// En muchas fichas la descripcion corta se derivo del propio texto. Si el cuerpo
+// empieza igual, mostrar las dos seria repetir lo mismo dos veces en pantalla.
+const normalizar = (s: string) =>
+  s.toLowerCase().replace(/[^a-záéíóúñü0-9 ]/gi, '').replace(/\s+/g, ' ').trim();
+const cuerpoPlano = normalizar(p.body ?? '');
+const descPlana = normalizar(d.descripcion).replace(/…$/, '').slice(0, 60);
+const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(descPlana);
+---
+
+<Base titulo={d.titulo} descripcion={d.descripcion} imagen={d.portada} tipo="article" schema={schema}>
+  <div class="contenedor seccion">
+    <Miga items={[{ texto: cat.nombre, href: cat.ruta }, { texto: d.titulo }]} />
+
+    <div class="ficha">
+      <div class="ficha__foto">
+        {d.portada ? (
+          <img src={u(d.portada)} alt={d.titulo} width="700" height="700" loading="eager" decoding="async" />
+        ) : (
+          <div class="ficha__sinfoto"><span>Foto en preparación</span></div>
+        )}
+      </div>
+
+      <div class="ficha__datos">
+        <p class="antetitulo">{cat.nombre}</p>
+        <h1>{d.titulo}</h1>
+        <div class="filete"></div>
+        {!descripcionDuplicada && <p class="ficha__desc">{d.descripcion}</p>}
+
+        <p class="ficha__precio">
+          {precioTexto
+            ? <><span class="ficha__valor">{precioTexto}</span> <span class="ficha__iva">IVA incluido</span></>
+            : <span class="ficha__consultar">Consultar precio y disponibilidad</span>}
+        </p>
+
+        <div class="ficha__acciones">
+          {d.mercadolibre && (
+            <a class="boton" href={d.mercadolibre} rel="noopener nofollow" target="_blank">
+              Comprar en MercadoLibre
+            </a>
+          )}
+          <a class={d.mercadolibre ? 'boton boton--linea' : 'boton'} href={u('/contacto/')}>
+            {d.categoria === 'regalos' ? 'Pedir cotización' : 'Consultar'}
+          </a>
+        </div>
+
+        {d.contenido && d.contenido.length > 0 && (
+          <div class="ficha__bloque">
+            <h2>Este pack incluye</h2>
+            <ul class="ficha__lista">
+              {d.contenido.map((i) => <li>{i}</li>)}
+            </ul>
+          </div>
+        )}
+
+        {esVino && (
+          <div class="ficha__bloque">
+            <h2>Ficha técnica</h2>
+            {fichaVino.length > 0 ? (
+              <dl class="ficha__tabla">
+                {fichaVino.map(([k, v]) => (<><dt>{k}</dt><dd>{v}</dd></>))}
+              </dl>
+            ) : (
+              <p class="ficha__pendiente">
+                Añada, graduación y contenido neto se publican al confirmarse la partida en curso.
+                Consultanos y te enviamos la ficha técnica vigente.
+              </p>
+            )}
+            {sitio.empresa.inv && <p class="ficha__inv">Inscripción INV {sitio.empresa.inv}</p>}
+          </div>
+        )}
+      </div>
+    </div>
+
+    <div class="ficha__prosa">
+      <div class="prosa"><Content /></div>
+      {esVino && <p class="ficha__legal">{sitio.leyendaAlcohol}</p>}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .ficha {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
+    align-items: start;
+    margin-top: 1.5rem;
+  }
+
+  .ficha__foto {
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    overflow: hidden;
+    background: var(--surface-2);
+    position: sticky;
+    top: 86px;
+  }
+  .ficha__foto img { width: 100%; aspect-ratio: 1; object-fit: cover; }
+  .ficha__sinfoto {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--vino-wash), var(--oro-wash));
+    color: var(--vino-ink);
+    font-family: Petrona, serif;
+  }
+
+  .ficha__datos { display: flex; flex-direction: column; gap: 0.8rem; }
+  .ficha__desc { color: var(--muted); font-size: 1.02rem; }
+
+  .ficha__precio { margin-top: 0.5rem; }
+  .ficha__valor { font-family: Petrona, serif; font-size: 2rem; font-weight: 600; }
+  .ficha__iva { font-size: 0.82rem; color: var(--muted); }
+  .ficha__consultar {
+    display: inline-block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--vino-ink);
+    background: var(--vino-wash);
+    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
+    border-radius: var(--radio);
+    padding: 0.5rem 0.9rem;
+  }
+
+  .ficha__acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.6rem; }
+
+  .ficha__bloque { margin-top: 1.6rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+  .ficha__bloque h2 {
+    font-family: Archivo, sans-serif;
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-bottom: 0.8rem;
+  }
+  .ficha__lista { margin: 0; padding-left: 1.15rem; display: grid; gap: 0.35rem; font-size: 0.95rem; }
+
+  .ficha__tabla {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.45rem 1.2rem;
+    margin: 0;
+    font-size: 0.93rem;
+  }
+  .ficha__tabla dt { color: var(--muted); }
+  .ficha__tabla dd { margin: 0; font-weight: 500; }
+  .ficha__pendiente { font-size: 0.9rem; color: var(--muted); }
+  .ficha__inv { font-size: 0.8rem; color: var(--faint); margin-top: 0.7rem; }
+
+  .ficha__prosa { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
+  .ficha__legal {
+    margin-top: 2rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--vino-ink);
+    background: var(--vino-wash);
+    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
+    border-radius: var(--radio);
+    padding: 0.65rem 0.95rem;
+    max-width: var(--lectura);
+  }
+
+  @media (max-width: 860px) {
+    .ficha { grid-template-columns: 1fr; }
+    .ficha__foto { position: static; max-width: 26rem; }
+  }
+</style>

@@ -71,11 +71,21 @@ const sobreFoto = actual === '/';
     background: linear-gradient(to right, var(--vino-prof), var(--vino), var(--oro) 70%, var(--vino-prof));
   }
 
-  /* En la portada flota sobre la fotografía hasta que se hace scroll */
+  /* En la portada flota sobre la fotografía hasta que se hace scroll.
+     La foto siempre es oscura, así que el texto va en claro aunque el
+     visitante tenga el tema claro: si no, el wordmark queda negro sobre negro. */
   .cab--sobre-foto:not(.cab--fija) {
     background: transparent;
     border-bottom-color: transparent;
   }
+  .cab--sobre-foto:not(.cab--fija) .marca__nombre { color: #f6efe4; }
+  .cab--sobre-foto:not(.cab--fija) .nav a { color: #e2d8cd; }
+  .cab--sobre-foto:not(.cab--fija) .nav a:hover,
+  .cab--sobre-foto:not(.cab--fija) .nav a[aria-current='page'] { color: #f0cc7c; }
+  .cab--sobre-foto:not(.cab--fija) .marca__sub { color: #f0cc7c; }
+  .cab--sobre-foto:not(.cab--fija) .cab__cta { color: #f0cc7c; border-color: rgb(240 204 124 / 55%); }
+  .cab--sobre-foto:not(.cab--fija) .icono { color: #e2d8cd; border-color: rgb(255 255 255 / 28%); }
+  .cab--sobre-foto:not(.cab--fija) .icono:hover { color: #f0cc7c; border-color: #f0cc7c; }
   .cab--fija { background: color-mix(in srgb, var(--ground) 94%, transparent); backdrop-filter: blur(10px); }
 
   .cab__fila { display: flex; align-items: center; gap: 1.5rem; min-height: 78px; }

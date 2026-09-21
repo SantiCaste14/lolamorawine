@@ -54,7 +54,9 @@ for (const vista of [
       }
       window.scrollTo(0, 0);
     });
-    await p.waitForTimeout(600);
+    // La barra de la portada cambia de estado con el scroll: hay que esperar a que
+    // el listener vuelva a ejecutarse en el tope antes de capturar.
+    await p.waitForTimeout(700);
 
     const rotas = await p.evaluate(() =>
       [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src)

@@ -65,6 +65,7 @@ export const sitio = {
         { texto: 'Contacto', href: '/contacto/' },
         { texto: 'Política de privacidad', href: '/politica-de-privacidad/' },
         { texto: 'Términos y condiciones', href: '/terminos-y-condiciones/' },
+        { texto: 'Créditos de imágenes', href: '/creditos/' },
       ],
     },
   ],

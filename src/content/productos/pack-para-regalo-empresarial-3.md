@@ -2,7 +2,7 @@
 titulo: "Pack para Regalo Empresarial 3"
 descripcion: "2 Botellas de vino Lola Mora a elección 1 Caja escocesa"
 urlOriginal: "/index.php?option=com_virtuemart&page=shop.product_details&flypage=flypage.tpl&product_id=81"
-portada: "/img/components_com_virtuemart_shop_image_product_Pack_para_Regalo_4ae0d87f11ede.webp"
+portada: "/img/prod/pack-para-regalo-empresarial-3.webp"
 categoria: "regalos"
 orden: 4
 ---

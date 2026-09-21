@@ -1,0 +1,113 @@
+---
+/**
+ * Escudo de Lola Mora Wine, redibujado en vector a partir del original de 2009
+ * (un JPEG de 70 px de ancho incrustado en la cabecera del sitio viejo).
+ * Conserva sus elementos: corona, banda con el nombre, cuartelado con L · caballo
+ * de paso · racimo · M, y cinta al pie. Al ser SVG, es nítido a cualquier tamaño.
+ */
+interface Props {
+  /** Alto en píxeles. El ancho se deduce de la proporción. */
+  alto?: number;
+  /** Sin la banda superior ni la cinta: versión compacta para la barra de navegación. */
+  compacto?: boolean;
+  class?: string;
+}
+const { alto = 64, compacto = false, class: clase = '' } = Astro.props;
+const ancho = Math.round(alto * (compacto ? 0.8 : 0.84));
+---
+
+<svg
+  class={clase}
+  width={ancho}
+  height={alto}
+  viewBox="0 0 168 200"
+  fill="none"
+  xmlns="http://www.w3.org/2000/svg"
+  role="img"
+  aria-label="Escudo de Lola Mora Wine"
+>
+  <defs>
+    <linearGradient id="lm-oro" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#E8C36A" />
+      <stop offset="45%" stop-color="#C9962F" />
+      <stop offset="100%" stop-color="#9A6E18" />
+    </linearGradient>
+    <clipPath id="lm-escudo">
+      <path d="M22 44 H146 V118 C146 152 118 178 84 194 C50 178 22 152 22 118 Z" />
+    </clipPath>
+  </defs>
+
+  {/* Corona */}
+  <path
+    d="M34 40 L34 20 L56 34 L84 6 L112 34 L134 20 L134 40 Z"
+    fill="url(#lm-oro)"
+    stroke="#7A5510"
+    stroke-width="2.5"
+    stroke-linejoin="round"
+  />
+  <circle cx="58" cy="30" r="3.4" fill="#5E3F0A" />
+  <circle cx="84" cy="24" r="3.4" fill="#5E3F0A" />
+  <circle cx="110" cy="30" r="3.4" fill="#5E3F0A" />
+
+  {/* Cuerpo del escudo */}
+  <path
+    d="M22 44 H146 V118 C146 152 118 178 84 194 C50 178 22 152 22 118 Z"
+    fill="#8E1C20"
+  />
+
+  {/* Cuartelado */}
+  <g clip-path="url(#lm-escudo)">
+    <rect x="22" y="62" width="62" height="70" fill="#8E1C20" />
+    <rect x="84" y="62" width="62" height="70" fill="#F5EBD2" />
+    <rect x="22" y="132" width="62" height="70" fill="#F5EBD2" />
+    <rect x="84" y="132" width="62" height="70" fill="#8E1C20" />
+
+    {/* Caballo peruano de paso, estilizado */}
+    <path
+      d="M100 112 c4-9 10-14 17-16 c3-5 8-7 12-5 c-1 3-3 5-5 6 c5 2 8 6 9 11
+         c1 6-2 11-6 14 c-2 6-7 10-13 11 c-5 1-9-1-12-4 c2-4 5-6 9-7
+         c-5-1-9-4-11-10 z"
+      fill="url(#lm-oro)"
+    />
+    <path d="M110 122 c6 4 12 4 18 1" stroke="#8E6416" stroke-width="1.6" fill="none" />
+
+    {/* Racimo de uvas */}
+    <g fill="url(#lm-oro)">
+      <circle cx="53" cy="152" r="5" /><circle cx="64" cy="152" r="5" />
+      <circle cx="47" cy="162" r="5" /><circle cx="58" cy="162" r="5" /><circle cx="69" cy="162" r="5" />
+      <circle cx="53" cy="172" r="5" /><circle cx="64" cy="172" r="5" />
+      <circle cx="58" cy="182" r="5" />
+    </g>
+    <path d="M58 146 c0-7 5-11 11-12" stroke="#9A6E18" stroke-width="2.6" fill="none" stroke-linecap="round" />
+
+    {/* Iniciales */}
+    <text x="53" y="112" text-anchor="middle" font-family="Cinzel, Georgia, serif"
+          font-size="46" font-weight="600" fill="#FBF3E2">L</text>
+    <text x="115" y="182" text-anchor="middle" font-family="Cinzel, Georgia, serif"
+          font-size="46" font-weight="600" fill="#FBF3E2">M</text>
+  </g>
+
+  {!compacto && (
+    <>
+      {/* Banda con el nombre */}
+      <rect x="22" y="44" width="124" height="18" fill="url(#lm-oro)" />
+      <text x="84" y="58" text-anchor="middle" font-family="Cinzel, Georgia, serif"
+            font-size="11.5" letter-spacing="1.8" fill="#5E3F0A">LOLA MORA</text>
+
+      {/* Cinta al pie */}
+      <path d="M10 150 C40 178 128 178 158 150 L150 166 C122 190 46 190 18 166 Z"
+            fill="url(#lm-oro)" stroke="#7A5510" stroke-width="2" stroke-linejoin="round" />
+      <text x="84" y="172" text-anchor="middle" font-family="Cinzel, Georgia, serif"
+            font-size="8.5" letter-spacing="1.2" fill="#5E3F0A">FINCA EL DÁTIL</text>
+    </>
+  )}
+
+  {/* Filete del escudo */}
+  <path
+    d="M22 44 H146 V118 C146 152 118 178 84 194 C50 178 22 152 22 118 Z"
+    fill="none"
+    stroke="url(#lm-oro)"
+    stroke-width="4"
+    stroke-linejoin="round"
+  />
+</svg>

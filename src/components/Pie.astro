@@ -1,4 +1,5 @@
 ---
+import Escudo from './Escudo.astro';
 import { sitio, u } from '../lib/sitio';
 const anio = new Date().getFullYear();
 ---
@@ -6,8 +7,9 @@ const anio = new Date().getFullYear();
 <footer class="pie">
   <div class="contenedor pie__grilla">
     <div class="pie__marca">
+      <Escudo alto={82} />
       <p class="pie__nombre">Lola Mora <span>Wine</span></p>
-      <p class="pie__lema">{sitio.lema}. {sitio.bajada}.</p>
+      <p class="pie__lema">{sitio.lema}.<br />{sitio.bajada}.</p>
       {sitio.contacto.email && (
         <p class="pie__dato"><a href={`mailto:${sitio.contacto.email}`}>{sitio.contacto.email}</a></p>
       )}
@@ -18,9 +20,7 @@ const anio = new Date().getFullYear();
       <nav class="pie__col" aria-label={col.titulo}>
         <h2 class="pie__titulo">{col.titulo}</h2>
         <ul>
-          {col.enlaces.map((e) => (
-            <li><a href={u(e.href)}>{e.texto}</a></li>
-          ))}
+          {col.enlaces.map((e) => <li><a href={u(e.href)}>{e.texto}</a></li>)}
         </ul>
       </nav>
     ))}
@@ -29,8 +29,16 @@ const anio = new Date().getFullYear();
   <div class="contenedor pie__legal">
     <p class="pie__alcohol">{sitio.leyendaAlcohol}</p>
     <div class="pie__fila">
-      <p>&copy; {anio} {sitio.nombre}{sitio.empresa.razonSocial ? ` — ${sitio.empresa.razonSocial}` : ''}{sitio.empresa.cuit ? ` — CUIT ${sitio.empresa.cuit}` : ''}</p>
-      <p><a href={u('/boton-de-arrepentimiento/')}>Botón de arrepentimiento</a></p>
+      <p>
+        &copy; {anio} {sitio.nombre}
+        {sitio.empresa.razonSocial ? ` — ${sitio.empresa.razonSocial}` : ''}
+        {sitio.empresa.cuit ? ` — CUIT ${sitio.empresa.cuit}` : ''}
+      </p>
+      <p class="pie__enlaces">
+        <a href={u('/boton-de-arrepentimiento/')}>Botón de arrepentimiento</a>
+        <span aria-hidden="true">·</span>
+        <a href={u('/creditos/')}>Créditos de imágenes</a>
+      </p>
     </div>
   </div>
 </footer>
@@ -38,68 +46,87 @@ const anio = new Date().getFullYear();
 <style>
   .pie {
     margin-top: auto;
-    background: var(--surface);
+    position: relative;
+    background: var(--ground-2);
     border-top: 1px solid var(--line);
-    padding-top: clamp(2.5rem, 6vw, 4rem);
+    padding-top: clamp(3rem, 7vw, 5rem);
+  }
+  .pie::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 2px;
+    background: linear-gradient(to right, transparent, var(--oro) 35%, var(--vino) 65%, transparent);
+    opacity: .6;
   }
 
   .pie__grilla {
     display: grid;
-    gap: clamp(1.75rem, 4vw, 3rem);
-    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-    padding-bottom: 2.5rem;
+    gap: clamp(2rem, 5vw, 3.5rem);
+    grid-template-columns: 1fr;
+    padding-bottom: 3rem;
+  }
+  @media (min-width: 640px) {
+    .pie__grilla { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1000px) {
+    .pie__grilla { grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); }
   }
 
+  .pie__marca { display: grid; justify-items: start; gap: .5rem; }
   .pie__nombre {
-    font-family: Petrona, Georgia, serif;
+    margin-top: .6rem;
+    font-family: var(--romana);
     font-size: 1.3rem;
     font-weight: 600;
+    letter-spacing: .03em;
   }
   .pie__nombre span {
-    font-family: Archivo, sans-serif;
-    font-size: 0.66rem;
-    font-weight: 600;
-    letter-spacing: 0.22em;
+    font-size: .58rem;
+    letter-spacing: .45em;
     text-transform: uppercase;
-    color: var(--vino);
+    color: var(--oro);
     vertical-align: middle;
   }
-  .pie__lema { color: var(--muted); font-size: 0.92rem; margin-top: 0.4rem; max-width: 30ch; }
-  .pie__dato { font-size: 0.9rem; margin-top: 0.6rem; }
+  .pie__lema { color: var(--muted); font-size: .9rem; line-height: 1.6; }
+  .pie__dato { font-size: .9rem; margin-top: .4rem; }
 
   .pie__titulo {
-    font-family: Archivo, sans-serif;
-    font-size: 0.72rem;
+    font-family: var(--romana);
+    font-size: .68rem;
     font-weight: 600;
-    letter-spacing: 0.15em;
+    letter-spacing: .24em;
     text-transform: uppercase;
-    color: var(--faint);
-    margin-bottom: 0.85rem;
+    color: var(--oro);
+    margin-bottom: 1rem;
   }
-  .pie__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; }
-  .pie__col a { color: var(--ink-2); text-decoration: none; font-size: 0.92rem; }
-  .pie__col a:hover { color: var(--vino-ink); text-decoration: underline; }
+  .pie__col ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .6rem; }
+  .pie__col a { color: var(--ink-2); text-decoration: none; font-size: .9rem; }
+  .pie__col a:hover { color: var(--oro-claro); }
 
-  .pie__legal { border-top: 1px solid var(--line); padding-block: 1.4rem 2rem; }
+  .pie__legal { border-top: 1px solid var(--line); padding-block: 1.6rem 2.4rem; }
   .pie__alcohol {
-    font-size: 0.82rem;
+    font-family: var(--romana);
+    font-size: .7rem;
     font-weight: 600;
-    letter-spacing: 0.02em;
-    color: var(--vino-ink);
-    background: var(--vino-wash);
-    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
-    border-radius: var(--radio);
-    padding: 0.6rem 0.9rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--oro);
     text-align: center;
-    margin-bottom: 1.1rem;
+    padding: .75rem 1rem;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radio);
+    margin-bottom: 1.3rem;
   }
   .pie__fila {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem 1.5rem;
+    gap: .6rem 1.5rem;
     justify-content: space-between;
-    font-size: 0.82rem;
+    font-size: .8rem;
     color: var(--muted);
   }
+  .pie__enlaces { display: flex; gap: .6rem; flex-wrap: wrap; }
   .pie__fila a { color: var(--muted); }
+  .pie__fila a:hover { color: var(--oro-claro); }
 </style>

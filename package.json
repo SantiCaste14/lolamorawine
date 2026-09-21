@@ -13,7 +13,10 @@
     "validar": "node scripts/validar.mjs",
     "capturas": "node scripts/capturas.mjs",
     "verificar-produccion": "node scripts/verificar-produccion.mjs",
-    "optimizar": "node scripts/optimizar-imagenes.mjs && node scripts/usar-webp.mjs"
+    "optimizar": "node scripts/optimizar-imagenes.mjs && node scripts/usar-webp.mjs",
+    "marca": "node scripts/separar-marca.mjs",
+    "fotos": "node scripts/hoja-contacto.mjs && node scripts/procesar-fotos.mjs && node scripts/panel-finca.mjs",
+    "referencias": "node scripts/referencias.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",

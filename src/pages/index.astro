@@ -1,160 +1,144 @@
 ---
 import Base from '../layouts/Base.astro';
 import Tarjeta from '../components/Tarjeta.astro';
+import Escudo from '../components/Escudo.astro';
 import { productosPorCategoria, publicadas } from '../lib/colecciones';
 import { sitio, u } from '../lib/sitio';
 
 const vinos = await productosPorCategoria('vinos');
-const packs = (await productosPorCategoria('regalos')).slice(0, 3);
 const delis = await productosPorCategoria('delicatessen');
+const packs = (await productosPorCategoria('regalos')).slice(0, 3);
 const noticias = (await publicadas('noticias')).slice(0, 3);
 
-const HERO = '/img/images_cajaluz_vinedos_vinos-lola-mora-wine-1.webp';
-const FOTO_FINCA = '/img/images_cajaluz_eventos_tonel-de-bodega-lola-mora-wines.webp';
-const FOTO_LOLA = '/img/images_fotosarticulos_lola-mora-esplendor.webp';
+const HERO = '/img/foto/nereidas-detalle.webp';
+const OBRA = '/img/foto/nereidas-tritones.webp';
+const CASA = '/img/foto/casa-natal.webp';
+const TEXTURA = '/img/foto/textura-bodega.webp';
 ---
 
 <Base titulo={sitio.nombre} descripcion={sitio.descripcion}>
-  {/* ---------------- Hero ---------------- */}
+  {/* ═══════════════ Portada: la obra de Lola Mora a sangre ═══════════════ */}
   <section class="hero">
-    <div class="hero__foto">
-      <img src={u(HERO)} alt="Viñedos de Finca El Dátil" width="1200" height="900" fetchpriority="high" decoding="async" />
-    </div>
-    <div class="hero__texto">
-      <p class="antetitulo">Finca El Dátil · Argentina</p>
-      <h1>Vinos con historia</h1>
+    <img class="hero__foto" src={u(HERO)} alt="Fuente de las Nereidas, obra de Lola Mora" fetchpriority="high" decoding="async" width="1800" height="1350" />
+    <div class="hero__velo" aria-hidden="true"></div>
+
+    <div class="contenedor hero__contenido">
+      <p class="versal versal--centro hero__versal">Finca El Dátil · Argentina</p>
+      <h1 class="hero__titulo">
+        Vinos con <em>historia</em>
+      </h1>
       <p class="hero__bajada">
-        Arte argentino en cada etiqueta. Malbec y Tempranillo, jamón crudo y salame de llama,
-        elaborados en la finca que dio origen a la marca.
+        Arte argentino en cada etiqueta. Malbec y Tempranillo, jamón crudo y salame
+        de llama, elaborados en la finca que dio origen a la marca.
       </p>
       <div class="hero__cta">
         <a class="boton" href={u('/vinos/')}>Ver los vinos</a>
-        <a class="boton boton--linea" href={u('/regalos-empresariales/')}>Regalos corporativos</a>
+        <a class="boton boton--oro" href={u('/regalos-empresariales/')}>Regalos corporativos</a>
       </div>
-      <ul class="hero__puntos">
-        <li>Elaboración propia en Finca El Dátil</li>
-        <li>Estuches corporativos personalizados</li>
-        <li>Más de quince años de historia</li>
-      </ul>
     </div>
+
+    <p class="hero__credito">
+      Fuente de las Nereidas (1903), obra de Lola Mora
+    </p>
   </section>
 
-  {/* ---------------- Vinos ---------------- */}
+  {/* ═══════════════ Los productos ═══════════════ */}
   <section class="contenedor seccion">
-    <header class="cab-seccion">
+    <header class="cabsec">
       <div>
-        <p class="antetitulo">Los vinos</p>
+        <p class="versal">Los vinos</p>
         <h2>Malbec y Tempranillo</h2>
       </div>
-      <a class="enlace-mas" href={u('/vinos/')}>Ver todos</a>
+      <a class="mas" href={u('/vinos/')}>Ver todos <span aria-hidden="true">→</span></a>
     </header>
+
     <div class="grilla">
       {vinos.map((p) => (
-        <Tarjeta
-          href={`/productos/${p.id}/`}
-          titulo={p.data.titulo}
-          descripcion={p.data.descripcion}
-          imagen={p.data.portada}
-          formato="alto"
-          etiqueta="Vino"
-          pie="Ver ficha"
-        />
+        <Tarjeta href={`/productos/${p.id}/`} titulo={p.data.titulo} descripcion={p.data.descripcion}
+                 imagen={p.data.portada} formato="retrato" etiqueta="Vino" pie="Ver ficha" />
       ))}
       {delis.map((p) => (
-        <Tarjeta
-          href={`/productos/${p.id}/`}
-          titulo={p.data.titulo}
-          descripcion={p.data.descripcion}
-          imagen={p.data.portada}
-          formato="alto"
-          etiqueta="Delicatessen"
-          pie="Ver ficha"
-        />
+        <Tarjeta href={`/productos/${p.id}/`} titulo={p.data.titulo} descripcion={p.data.descripcion}
+                 imagen={p.data.portada} formato="retrato" etiqueta="Delicatessen" pie="Ver ficha" />
       ))}
     </div>
-    <p class="legal">{sitio.leyendaAlcohol}</p>
+
+    <p class="leyenda">{sitio.leyendaAlcohol}</p>
   </section>
 
-  {/* ---------------- Regalos corporativos ---------------- */}
-  <section class="franja">
-    <div class="contenedor">
-      <header class="cab-seccion">
-        <div>
-          <p class="antetitulo antetitulo--claro">Empresas</p>
-          <h2>Regalos corporativos con producción propia</h2>
-          <p class="franja__bajada">
-            Estuches con vino, jamón crudo y salame de llama, en caja escocesa.
-            Personalización con logo y entrega coordinada para fin de año.
-          </p>
-        </div>
-        <a class="enlace-mas" href={u('/regalos-empresariales/')}>Ver los estuches</a>
-      </header>
-      <div class="grilla">
-        {packs.map((p) => (
-          <Tarjeta
-            href={`/productos/${p.id}/`}
-            titulo={p.data.titulo}
-            descripcion={p.data.descripcion}
-            imagen={p.data.portada}
-            formato="alto"
-            etiqueta="Estuche"
-            pie="Ver contenido"
-          />
-        ))}
-      </div>
-      <p class="franja__cta"><a class="boton" href={u('/contacto/')}>Pedir cotización</a></p>
+  {/* ═══════════════ Manifiesto ═══════════════ */}
+  <section class="manifiesto">
+    <img class="manifiesto__fondo" src={u(TEXTURA)} alt="" aria-hidden="true" loading="lazy" decoding="async" width="2000" height="1500" />
+    <div class="contenedor manifiesto__contenido">
+      <Escudo alto={112} class="manifiesto__escudo" />
+      <blockquote>
+        Una escultora que desafió a su época. Una finca que conserva sus carruajes
+        y sus caballos. Y un vino que lleva las dos historias en la etiqueta.
+      </blockquote>
+      <a class="boton boton--oro" href={u('/lola-mora/')}>Conocer a Lola Mora</a>
     </div>
   </section>
 
-  {/* ---------------- Historia ---------------- */}
+  {/* ═══════════════ Regalos corporativos ═══════════════ */}
   <section class="contenedor seccion">
-    <p class="antetitulo">La historia</p>
-    <h2 class="titulo-centrado">Dos relatos detrás de cada botella</h2>
-    <div class="duo">
-      <a class="duo__item" href={u('/lola-mora/')}>
-        <img src={u(FOTO_LOLA)} alt="Lola Mora, escultora" width="700" height="520" loading="lazy" decoding="async" />
-        <div class="duo__texto">
-          <h3>Lola Mora, la escultora</h3>
-          <p>
-            La artista tucumana que desafió a su época y dio nombre a la marca.
-            Su biografía, sus obras y la documentación sobre su origen.
-          </p>
-          <span class="duo__mas">Conocer su historia</span>
-        </div>
-      </a>
-      <a class="duo__item" href={u('/finca-el-datil/')}>
-        <img src={u(FOTO_FINCA)} alt="Finca El Dátil" width="700" height="520" loading="lazy" decoding="async" />
-        <div class="duo__texto">
-          <h3>Finca El Dátil</h3>
-          <p>
-            La propiedad donde nacen los vinos y los delicatessen, con sus caballos
-            peruanos de paso y su colección de carruajes antiguos.
-          </p>
-          <span class="duo__mas">Conocer la finca</span>
-        </div>
-      </a>
+    <header class="cabsec">
+      <div>
+        <p class="versal">Empresas</p>
+        <h2>Regalos corporativos</h2>
+        <p class="cabsec__bajada">
+          Estuches con vino, jamón crudo y salame de llama en caja escocesa.
+          Personalización con logo y entrega coordinada para fin de año.
+        </p>
+      </div>
+      <a class="mas" href={u('/regalos-empresariales/')}>Ver los estuches <span aria-hidden="true">→</span></a>
+    </header>
+
+    <div class="grilla">
+      {packs.map((p) => (
+        <Tarjeta href={`/productos/${p.id}/`} titulo={p.data.titulo} descripcion={p.data.descripcion}
+                 imagen={p.data.portada} formato="alto" etiqueta="Estuche" superpuesta={true} />
+      ))}
     </div>
+    <p class="cta-linea"><a class="boton" href={u('/contacto/')}>Pedir cotización</a></p>
   </section>
 
-  {/* ---------------- Noticias ---------------- */}
+  {/* ═══════════════ Historia: dos accesos a sangre ═══════════════ */}
+  <section class="duo">
+    <a class="duo__mitad" href={u('/lola-mora/')}>
+      <img src={u(OBRA)} alt="Detalle de la Fuente de las Nereidas" loading="lazy" decoding="async" width="1800" height="1350" />
+      <span class="duo__velo" aria-hidden="true"></span>
+      <span class="duo__texto">
+        <span class="versal">La artista</span>
+        <span class="duo__titulo">Lola Mora</span>
+        <span class="duo__desc">La escultora tucumana que desafió a su época y dio nombre a la marca.</span>
+      </span>
+    </a>
+    <a class="duo__mitad" href={u('/finca-el-datil/')}>
+      <img src={u(CASA)} alt="Dibujo a pluma de la casa natal de Lola Mora, en Finca El Dátil" loading="lazy" decoding="async" width="1400" height="1050" />
+      <span class="duo__velo" aria-hidden="true"></span>
+      <span class="duo__texto">
+        <span class="versal">El origen</span>
+        <span class="duo__titulo">Finca El Dátil</span>
+        <span class="duo__desc">Caballos peruanos de paso, carruajes antiguos y la casa natal.</span>
+      </span>
+    </a>
+  </section>
+
+  {/* ═══════════════ Noticias ═══════════════ */}
   {noticias.length > 0 && (
-    <section class="contenedor seccion seccion--borde">
-      <header class="cab-seccion">
+    <section class="contenedor seccion seccion--filete">
+      <header class="cabsec">
         <div>
-          <p class="antetitulo">Novedades</p>
+          <p class="versal">Novedades</p>
           <h2>Noticias</h2>
         </div>
-        <a class="enlace-mas" href={u('/noticias/')}>Ver todas</a>
+        <a class="mas" href={u('/noticias/')}>Ver todas <span aria-hidden="true">→</span></a>
       </header>
       <div class="grilla">
         {noticias.map((n) => (
-          <Tarjeta
-            href={`/noticias/${n.id}/`}
-            titulo={n.data.titulo}
-            descripcion={n.data.descripcion}
-            imagen={n.data.portada}
-            pie={new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long', year: 'numeric' }).format(n.data.fecha)}
-          />
+          <Tarjeta href={`/noticias/${n.id}/`} titulo={n.data.titulo} descripcion={n.data.descripcion}
+                   imagen={n.data.portada}
+                   pie={new Intl.DateTimeFormat('es-AR', { day: 'numeric', month: 'long', year: 'numeric' }).format(n.data.fecha)} />
         ))}
       </div>
     </section>
@@ -162,116 +146,178 @@ const FOTO_LOLA = '/img/images_fotosarticulos_lola-mora-esplendor.webp';
 </Base>
 
 <style>
-  /* --- hero --- */
+  /* ---------------- portada ---------------- */
   .hero {
+    position: relative;
+    min-height: min(92svh, 860px);
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: stretch;
-    border-bottom: 1px solid var(--line);
-    background: var(--surface);
+    place-items: center;
+    overflow: hidden;
+    margin-top: -78px;            /* la barra flota encima */
+    padding-block: 9rem 5rem;
+    isolation: isolate;
   }
-  .hero__foto { position: relative; min-height: 22rem; }
-  .hero__foto img { width: 100%; height: 100%; object-fit: cover; }
-
-  .hero__texto {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 1rem;
-    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.25rem, 5vw, 4rem);
-  }
-  .hero__texto h1 { font-size: clamp(2.3rem, 6vw, 4rem); }
-  .hero__bajada { font-size: clamp(1.02rem, 2vw, 1.2rem); color: var(--muted); max-width: 44ch; }
-  .hero__cta { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 0.5rem; }
-  .hero__puntos {
-    list-style: none;
-    margin: 1.5rem 0 0;
-    padding: 1.25rem 0 0;
-    border-top: 1px solid var(--line);
-    display: grid;
-    gap: 0.45rem;
-    font-size: 0.9rem;
-    color: var(--muted);
-  }
-  .hero__puntos li { padding-left: 1.4rem; position: relative; }
-  .hero__puntos li::before {
-    content: '';
+  .hero__foto {
     position: absolute;
-    left: 0;
-    top: 0.62em;
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--oro);
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    /* Encuadre sobre el grupo escultórico central, fuera de postes y edificios */
+    object-position: 46% 58%;
+    transform: scale(1.18);
+    z-index: -2;
+  }
+  /* La profundidad se pone acá y no quemada en la foto: así se gradúa sin recomprimir.
+     Tres capas: viñeta lateral, oscurecido vertical y foco bordó detrás del texto. */
+  .hero__velo {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(58% 48% at 50% 46%, rgb(6 4 4 / 82%) 0%, rgb(6 4 4 / 55%) 55%, transparent 100%),
+      linear-gradient(to bottom, rgb(6 4 4 / 86%) 0%, rgb(6 4 4 / 46%) 34%, rgb(6 4 4 / 74%) 72%, var(--ground) 100%),
+      radial-gradient(130% 70% at 50% 108%, rgb(109 20 23 / 62%), transparent 62%),
+      radial-gradient(90% 120% at 50% 50%, transparent 38%, rgb(6 4 4 / 72%) 100%);
   }
 
-  @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero__foto { min-height: 15rem; max-height: 22rem; }
+  .hero__contenido { position: relative; text-align: center; display: grid; justify-items: center; gap: 1.4rem; }
+  .hero__versal { color: var(--oro-claro); }
+  .hero__titulo {
+    font-size: clamp(2.9rem, 9vw, 6.5rem);
+    color: #f8f2e8;
+    text-shadow: 0 2px 40px rgb(0 0 0 / 55%);
+  }
+  .hero__titulo em { font-style: italic; color: var(--oro-claro); }
+  .hero__bajada {
+    max-width: 46ch;
+    font-size: clamp(1rem, 2vw, 1.18rem);
+    color: #d8cec2;
+    text-shadow: 0 1px 20px rgb(0 0 0 / 60%);
+  }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: center; margin-top: .6rem; }
+
+  .hero__credito {
+    position: absolute;
+    bottom: 1rem; right: clamp(1.1rem, 4vw, 3rem);
+    font-size: .66rem;
+    letter-spacing: .1em;
+    color: rgb(255 255 255 / 45%);
   }
 
-  /* --- encabezados de sección --- */
-  .cab-seccion {
+  /* ---------------- encabezados de sección ---------------- */
+  .cabsec {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-    gap: 1.5rem;
+    gap: 1.5rem 2rem;
     flex-wrap: wrap;
-    margin-bottom: 1.75rem;
+    margin-bottom: 2.2rem;
   }
-  .cab-seccion h2 { margin-top: 0.5rem; }
-  .enlace-mas {
-    font-size: 0.9rem;
+  .cabsec h2 { margin-top: .7rem; }
+  .cabsec__bajada { margin-top: .9rem; max-width: 54ch; color: var(--muted); }
+  .mas {
+    font-family: var(--romana);
+    font-size: .72rem;
     font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
     text-decoration: none;
     white-space: nowrap;
     border-bottom: 1px solid currentColor;
-    padding-bottom: 2px;
+    padding-bottom: 3px;
   }
 
-  .titulo-centrado { margin: 0.6rem 0 2rem; }
-
-  .seccion--borde { border-top: 1px solid var(--line); }
-
-  .legal {
-    margin-top: 2rem;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--vino-ink);
-    background: var(--vino-wash);
-    border: 1px solid color-mix(in srgb, var(--vino) 25%, transparent);
-    border-radius: var(--radio);
-    padding: 0.7rem 1rem;
+  .leyenda {
+    margin-top: 2.4rem;
+    padding: .8rem 1rem;
     text-align: center;
-  }
-
-  /* --- franja B2B --- */
-  .franja {
-    background: var(--surface-2);
+    font-family: var(--romana);
+    font-size: .72rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--oro);
     border-block: 1px solid var(--line);
-    padding-block: clamp(2.5rem, 7vw, 4.5rem);
   }
-  .franja__bajada { color: var(--muted); max-width: 56ch; margin-top: 0.7rem; }
-  .franja__cta { margin-top: 2rem; }
-  .antetitulo--claro { color: var(--oro); }
 
-  /* --- duo historia --- */
-  .duo { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 1.5rem; }
-  .duo__item {
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    border: 1px solid var(--line);
-    border-radius: var(--radio);
+  .cta-linea { margin-top: 2.4rem; }
+
+  /* ---------------- manifiesto ---------------- */
+  .manifiesto {
+    position: relative;
     overflow: hidden;
-    background: var(--surface);
-    box-shadow: var(--sombra);
-    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+    padding-block: clamp(4rem, 10vw, 7.5rem);
+    border-block: 1px solid var(--line);
+    isolation: isolate;
   }
-  .duo__item:hover { box-shadow: var(--sombra-alta); transform: translateY(-2px); border-color: var(--oro); }
-  .duo__item img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-bottom: 1px solid var(--line); }
-  .duo__texto { padding: 1.35rem 1.5rem 1.6rem; display: flex; flex-direction: column; gap: 0.5rem; }
-  .duo__texto p { color: var(--muted); font-size: 0.94rem; }
-  .duo__mas { margin-top: 0.4rem; font-size: 0.88rem; font-weight: 600; color: var(--vino-ink); }
+  .manifiesto__fondo {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    opacity: .34;
+  }
+  .manifiesto::before {
+    content: '';
+    position: absolute; inset: 0; z-index: -1;
+    background:
+      radial-gradient(90% 70% at 50% 50%, rgb(109 20 23 / 40%), transparent 70%),
+      linear-gradient(to bottom, var(--ground) 0%, rgb(14 11 11 / 55%) 50%, var(--ground) 100%);
+  }
+  :root[data-theme='light'] .manifiesto::before,
+  :root:not([data-theme='dark']) .manifiesto::before {
+    background:
+      radial-gradient(90% 70% at 50% 50%, rgb(167 32 35 / 14%), transparent 70%),
+      linear-gradient(to bottom, var(--ground) 0%, rgb(244 239 230 / 72%) 50%, var(--ground) 100%);
+  }
+  .manifiesto__contenido { display: grid; justify-items: center; gap: 1.8rem; text-align: center; }
+  .manifiesto__escudo { filter: drop-shadow(0 6px 24px rgb(0 0 0 / 45%)); }
+  .manifiesto blockquote {
+    max-width: 22ch;
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 4.2vw, 2.7rem);
+    font-style: italic;
+    line-height: 1.24;
+    color: var(--ink);
+  }
+  @media (min-width: 720px) { .manifiesto blockquote { max-width: 30ch; } }
+
+  /* ---------------- duo a sangre ---------------- */
+  .duo { display: grid; grid-template-columns: 1fr 1fr; }
+  .duo__mitad {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: clamp(20rem, 42vw, 32rem);
+    overflow: hidden;
+    text-decoration: none;
+    isolation: isolate;
+  }
+  .duo__mitad img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    transition: transform .9s cubic-bezier(.2,.7,.3,1);
+  }
+  .duo__mitad:hover img { transform: scale(1.06); }
+  .duo__velo {
+    position: absolute; inset: 0; z-index: -1;
+    background: linear-gradient(to top, rgb(8 6 6 / 92%) 8%, rgb(8 6 6 / 35%) 55%, rgb(8 6 6 / 55%) 100%);
+    transition: background .4s ease;
+  }
+  .duo__mitad:hover .duo__velo {
+    background: linear-gradient(to top, rgb(109 20 23 / 88%) 8%, rgb(8 6 6 / 40%) 55%, rgb(8 6 6 / 55%) 100%);
+  }
+  .duo__texto { display: grid; gap: .5rem; padding: clamp(1.5rem, 4vw, 3rem); }
+  .duo__titulo {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1.08;
+    color: #f7f1e7;
+  }
+  .duo__desc { max-width: 34ch; font-size: .94rem; color: #cabfb3; }
+  .duo :global(.versal) { color: var(--oro-claro); }
+
+  @media (max-width: 760px) { .duo { grid-template-columns: 1fr; } }
 </style>

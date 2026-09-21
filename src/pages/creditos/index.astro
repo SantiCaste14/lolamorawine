@@ -1,0 +1,71 @@
+---
+import Base from '../../layouts/Base.astro';
+import Encabezado from '../../components/Encabezado.astro';
+import Miga from '../../components/Miga.astro';
+import creditos from '../../lib/creditos.json';
+
+const descripcion =
+  'Autoría y licencia de las fotografías de este sitio, y origen de los elementos de marca.';
+---
+
+<Base titulo="Créditos de imágenes" descripcion={descripcion}>
+  <div class="contenedor-lectura seccion">
+    <Miga items={[{ texto: 'Créditos de imágenes' }]} />
+    <Encabezado antetitulo="Legal" titulo="Créditos de imágenes" bajada={descripcion} />
+
+    <div class="prosa">
+      <p>
+        Las fotografías de la obra de Lola Mora provienen de Wikimedia Commons y se
+        publican bajo licencia libre. Se recortaron y se les aplicó corrección de color;
+        no se alteró su contenido. A continuación, la atribución de cada una.
+      </p>
+    </div>
+
+    <ul class="lista">
+      {creditos.map((c) => (
+        <li class="cred">
+          <img src={c.archivo} alt="" width="120" height="80" loading="lazy" decoding="async" />
+          <div>
+            <p class="cred__titulo">{c.titulo}</p>
+            <p class="cred__meta">{c.autor}</p>
+            <p class="cred__meta">
+              <span class="cred__lic">{c.licencia}</span>
+              {c.nota && <> · {c.nota}</>}
+            </p>
+            <p class="cred__meta"><a href={c.fuente} rel="noopener nofollow" target="_blank">Ver en Wikimedia Commons</a></p>
+          </div>
+        </li>
+      ))}
+    </ul>
+
+    <div class="prosa">
+      <h2>Elementos de marca</h2>
+      <p>
+        El escudo, el wordmark y el dibujo de la casa natal provienen del sitio original
+        de Lola Mora Wine (2009) y son propiedad de la marca. El escudo se redibujó en
+        vector a partir del original para que se vea nítido en cualquier tamaño.
+      </p>
+      <h2>Fotografía de producto</h2>
+      <p>
+        Las fotos de los vinos, los estuches y los delicatessen son las del catálogo
+        original, reescaladas. Están pendientes de reemplazo por una sesión nueva.
+      </p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .lista { list-style: none; margin: 2.5rem 0; padding: 0; display: grid; gap: 1px; background: var(--line); border: 1px solid var(--line); }
+  .cred { display: flex; gap: 1.1rem; align-items: flex-start; padding: 1rem 1.1rem; background: var(--surface); }
+  .cred img { width: 120px; height: 80px; object-fit: cover; border-radius: var(--radio); flex-shrink: 0; }
+  .cred__titulo { font-size: .95rem; font-weight: 600; margin-bottom: .2rem; }
+  .cred__meta { font-size: .82rem; color: var(--muted); }
+  .cred__lic {
+    font-family: var(--romana);
+    font-size: .66rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--oro);
+  }
+  @media (max-width: 520px) { .cred { flex-direction: column; } .cred img { width: 100%; height: 140px; } }
+</style>

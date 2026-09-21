@@ -8,70 +8,142 @@ interface Props {
   imagen?: string;
   etiqueta?: string;
   pie?: string;
-  /** Recorte de la imagen. "alto" para retratos de producto. */
-  formato?: 'ancho' | 'alto';
+  formato?: 'ancho' | 'alto' | 'retrato';
+  /** Rótulo superpuesto sobre la imagen, como en el sitio original. */
+  superpuesta?: boolean;
 }
-const { href, titulo, descripcion, imagen, etiqueta, pie, formato = 'ancho' } = Astro.props;
+const {
+  href, titulo, descripcion, imagen, etiqueta, pie,
+  formato = 'ancho', superpuesta = false,
+} = Astro.props;
 ---
 
-<article class="tarjeta">
-  <a class="enlace" href={u(href)}>
-    {imagen ? (
-      <div class={`medio medio--${formato}`}>
-        <img src={u(imagen)} alt="" loading="lazy" decoding="async" width="600" height="450" />
-      </div>
-    ) : (
-      <div class={`medio medio--${formato} medio--vacio`} aria-hidden="true"><span>Lola Mora</span></div>
-    )}
-    <div class="cuerpo">
-      {etiqueta && <p class="etiqueta">{etiqueta}</p>}
-      <h3 class="titulo">{titulo}</h3>
-      {descripcion && <p class="desc">{descripcion}</p>}
-      {pie && <p class="pie">{pie}</p>}
+<article class={`t t--${formato}${superpuesta ? ' t--sup' : ''}`}>
+  <a class="t__link" href={u(href)}>
+    <div class="t__medio">
+      {imagen
+        ? <img src={u(imagen)} alt="" loading="lazy" decoding="async" width="720" height="540" />
+        : <div class="t__sinfoto" aria-hidden="true"><span>Lola Mora</span></div>}
+      <span class="t__velo" aria-hidden="true"></span>
+
+      {superpuesta && (
+        <div class="t__rotulo">
+          {etiqueta && <p class="t__etiqueta">{etiqueta}</p>}
+          <h3 class="t__titulo">{titulo}</h3>
+          {descripcion && <p class="t__desc">{descripcion}</p>}
+        </div>
+      )}
     </div>
+
+    {!superpuesta && (
+      <div class="t__cuerpo">
+        {etiqueta && <p class="t__etiqueta">{etiqueta}</p>}
+        <h3 class="t__titulo">{titulo}</h3>
+        {descripcion && <p class="t__desc">{descripcion}</p>}
+        {pie && <p class="t__pie">{pie}<span aria-hidden="true">&nbsp;→</span></p>}
+      </div>
+    )}
   </a>
 </article>
 
 <style>
-  .enlace { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; }
+  .t {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    overflow: hidden;
+    height: 100%;
+    transition: border-color .28s ease, transform .28s ease, box-shadow .28s ease;
+  }
+  .t:hover { border-color: var(--oro); transform: translateY(-3px); box-shadow: var(--sombra-alta); }
 
-  .medio { overflow: hidden; background: var(--surface-2); border-bottom: 1px solid var(--line); }
-  .medio--ancho { aspect-ratio: 4 / 3; }
-  .medio--alto { aspect-ratio: 1 / 1; }
-  .medio img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.35s ease; }
-  .tarjeta:hover .medio img { transform: scale(1.035); }
+  .t__link { display: flex; flex-direction: column; height: 100%; text-decoration: none; color: inherit; }
 
-  .medio--vacio {
+  .t__medio { position: relative; overflow: hidden; background: #0a0808; }
+  .t--ancho .t__medio { aspect-ratio: 4 / 3; }
+  .t--alto .t__medio { aspect-ratio: 1; }
+  .t--retrato .t__medio { aspect-ratio: 3 / 4; }
+
+  .t__medio img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform .7s cubic-bezier(.2,.7,.3,1), filter .4s ease;
+    filter: saturate(.9) contrast(1.04);
+  }
+  .t:hover .t__medio img { transform: scale(1.05); filter: saturate(1) contrast(1.06); }
+
+  /* Velo inferior: da contraste al rótulo y unifica fotos de calidad dispar */
+  .t__velo {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(8 6 6 / 88%) 0%, rgb(8 6 6 / 22%) 42%, transparent 70%);
+    pointer-events: none;
+  }
+  .t:not(.t--sup) .t__velo { opacity: .55; }
+
+  .t__sinfoto {
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, var(--vino-wash), var(--oro-wash));
+    height: 100%;
+    background:
+      radial-gradient(120% 90% at 50% 0%, var(--vino-prof), transparent 70%),
+      linear-gradient(160deg, #1b1212, #0d0a0a);
   }
-  .medio--vacio span {
-    font-family: Petrona, Georgia, serif;
-    font-size: 1.1rem;
-    color: var(--vino-ink);
-    opacity: 0.55;
+  .t__sinfoto span {
+    font-family: var(--romana);
+    font-size: 1rem;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--oro);
+    opacity: .45;
   }
 
-  .cuerpo { padding: 1.05rem 1.15rem 1.25rem; display: flex; flex-direction: column; gap: 0.4rem; flex: 1; }
+  /* Rótulo superpuesto, como las franjas del sitio de 2009 pero sin el brillo */
+  .t__rotulo {
+    position: absolute;
+    inset: auto 0 0 0;
+    padding: 1.1rem 1.25rem 1.25rem;
+    border-top: 1px solid rgb(201 150 47 / 35%);
+  }
+  .t__rotulo .t__titulo { color: #f6efe4; }
+  .t__rotulo .t__desc { color: #cfc3b6; }
 
-  .etiqueta {
-    font-size: 0.68rem;
+  .t__cuerpo { display: flex; flex-direction: column; gap: .45rem; padding: 1.15rem 1.3rem 1.4rem; flex: 1; }
+
+  .t__etiqueta {
+    font-family: var(--romana);
+    font-size: .63rem;
     font-weight: 600;
-    letter-spacing: 0.13em;
+    letter-spacing: .24em;
     text-transform: uppercase;
     color: var(--oro);
   }
-  .titulo { font-size: 1.1rem; line-height: 1.22; }
-  .desc {
-    font-size: 0.88rem;
+  .t__titulo {
+    font-family: var(--serif);
+    font-size: 1.22rem;
+    font-weight: 500;
+    line-height: 1.16;
+    letter-spacing: -.01em;
+  }
+  .t__desc {
+    font-size: .875rem;
+    line-height: 1.55;
     color: var(--muted);
-    line-height: 1.5;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
-    line-clamp: 3;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  .pie { margin-top: auto; padding-top: 0.5rem; font-size: 0.82rem; font-weight: 600; color: var(--vino-ink); }
+  .t__pie {
+    margin-top: auto;
+    padding-top: .7rem;
+    font-family: var(--romana);
+    font-size: .68rem;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--oro);
+  }
 </style>

@@ -1,0 +1,42 @@
+[
+  {
+    "archivo": "/img/foto/nereidas-hero.webp",
+    "titulo": "Buenos Aires - Las Nereidas.jpg",
+    "autor": "ogroboku",
+    "licencia": "CC BY-SA 2.0",
+    "fuente": "https://commons.wikimedia.org/wiki/File:Buenos_Aires_-_Las_Nereidas.jpg",
+    "nota": "Recortada y con corrección de color"
+  },
+  {
+    "archivo": "/img/foto/nereidas-detalle.webp",
+    "titulo": "Lola Mora032.jpg",
+    "autor": "Claudio Elias",
+    "licencia": "Public domain",
+    "fuente": "https://commons.wikimedia.org/wiki/File:Lola_Mora032.jpg",
+    "nota": "Recortada y con corrección de color"
+  },
+  {
+    "archivo": "/img/foto/nereidas-tritones.webp",
+    "titulo": "Lola Mora035.jpg",
+    "autor": "Claudio Elias",
+    "licencia": "Public domain",
+    "fuente": "https://commons.wikimedia.org/wiki/File:Lola_Mora035.jpg",
+    "nota": "Recortada y con corrección de color"
+  },
+  {
+    "archivo": "/img/foto/nereidas-cima.webp",
+    "titulo": "Lola Mora034.jpg",
+    "autor": "Claudio Elias",
+    "licencia": "Public domain",
+    "fuente": "https://commons.wikimedia.org/wiki/File:Lola_Mora034.jpg",
+    "nota": "Recortada"
+  },
+  {
+    "archivo": "/img/foto/textura-bodega.webp",
+    "titulo": "Beringer Vineyards, Napa Valley, California, USA (8503682185).jpg",
+    "autor": "Jim G from Silicon Valley, CA, USA",
+    "licencia": "CC BY 2.0",
+    "fuente": "https://commons.wikimedia.org/wiki/File:Beringer_Vineyards,_Napa_Valley,_California,_USA_(8503682185).jpg",
+    "nota": "Recortada y con corrección de color"
+  }
+]

@@ -2,7 +2,7 @@
 titulo: "Diccionario enciclopédico universal del vino"
 descripcion: "Diccionario enciclopédico universal del vino"
 urlOriginal: "/regalos-empresariales/details/93/1/regalos-empresariales/diccionario-enciclop%C3%A9dico-universal-del-vino.html"
-portada: "/img/components_com_virtuemart_shop_image_product_resized_Diccionario_enci_547a2e799c4f2_90x90.webp"
+portada: "/img/prod/diccionario-enciclopedico-universal-del-vino.webp"
 categoria: "regalos"
 orden: 8
 ---

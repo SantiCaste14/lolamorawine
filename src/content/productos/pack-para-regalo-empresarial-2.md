@@ -2,7 +2,7 @@
 titulo: "Pack para Regalo Empresarial 2"
 descripcion: "1 Bondiola Lola Mora 1 Botella de Vino Lola Mora Tempranillo o Malbec 1 Caja escocesa"
 urlOriginal: "/index.php?option=com_virtuemart&page=shop.product_details&flypage=flypage.tpl&product_id=80"
-portada: "/img/components_com_virtuemart_shop_image_product_Pack_para_Regalo_4ae0d85d6ef3d.webp"
+portada: "/img/prod/pack-para-regalo-empresarial-2.webp"
 categoria: "regalos"
 orden: 3
 ---

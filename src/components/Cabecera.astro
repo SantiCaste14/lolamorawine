@@ -1,36 +1,40 @@
 ---
+import Escudo from './Escudo.astro';
 import { sitio, u } from '../lib/sitio';
 
 const actual = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
 const esActual = (href: string) => (href === '/' ? actual === '/' : actual.startsWith(href));
+/** En la portada la barra arranca transparente sobre la foto y se opaca al bajar. */
+const sobreFoto = actual === '/';
 ---
 
-<header class="cab">
+<header class={`cab${sobreFoto ? ' cab--sobre-foto' : ''}`} data-sobre-foto={sobreFoto ? '' : undefined}>
   <div class="contenedor cab__fila">
     <a class="marca" href={u('/')} aria-label={`${sitio.nombre} — inicio`}>
-      <span class="marca__nombre">Lola Mora</span>
-      <span class="marca__sub">Wine</span>
+      <Escudo alto={58} compacto={true} class="marca__escudo" />
+      <span class="marca__texto">
+        <span class="marca__nombre">Lola Mora</span>
+        <span class="marca__sub">Wine</span>
+      </span>
     </a>
 
     <nav class="nav" aria-label="Navegación principal">
-      <ul class="nav__lista">
+      <ul>
         {sitio.navegacion.map((i) => (
-          <li>
-            <a href={u(i.href)} aria-current={esActual(i.href) ? 'page' : undefined}>{i.texto}</a>
-          </li>
+          <li><a href={u(i.href)} aria-current={esActual(i.href) ? 'page' : undefined}>{i.texto}</a></li>
         ))}
       </ul>
     </nav>
 
     <div class="cab__acciones">
-      <a class="boton boton--linea cab__cta" href={u('/contacto/')}>Contacto</a>
+      <a class="boton boton--oro cab__cta" href={u('/contacto/')}>Contacto</a>
       <button id="tema" class="icono" type="button" aria-label="Cambiar entre tema claro y oscuro">
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
       </button>
       <button id="abrir-menu" class="icono icono--movil" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir menú">
-        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <path d="M3 6h18M3 12h18M3 18h18" stroke-linecap="round" />
         </svg>
       </button>
@@ -54,114 +58,135 @@ const esActual = (href: string) => (href === '/' ? actual === '/' : actual.start
     position: sticky;
     top: 0;
     z-index: 50;
-    background: color-mix(in srgb, var(--surface) 92%, transparent);
-    backdrop-filter: blur(8px);
+    background: var(--ground);
     border-bottom: 1px solid var(--line);
+    transition: background .3s ease, border-color .3s ease;
+  }
+  /* Filete bordó superior: el remate del encabezado original */
+  .cab::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 3px;
+    background: linear-gradient(to right, var(--vino-prof), var(--vino), var(--oro) 70%, var(--vino-prof));
   }
 
-  .cab__fila {
-    display: flex;
-    align-items: center;
-    gap: 1.25rem;
-    min-height: 66px;
+  /* En la portada flota sobre la fotografía hasta que se hace scroll */
+  .cab--sobre-foto:not(.cab--fija) {
+    background: transparent;
+    border-bottom-color: transparent;
   }
+  .cab--fija { background: color-mix(in srgb, var(--ground) 94%, transparent); backdrop-filter: blur(10px); }
 
-  .marca {
-    display: flex;
-    align-items: baseline;
-    gap: 0.4rem;
-    text-decoration: none;
-    color: var(--ink);
-    flex-shrink: 0;
-  }
+  .cab__fila { display: flex; align-items: center; gap: 1.5rem; min-height: 78px; }
+
+  .marca { display: flex; align-items: center; gap: .7rem; text-decoration: none; color: var(--ink); flex-shrink: 0; }
+  .marca__escudo { filter: drop-shadow(0 2px 6px rgb(0 0 0 / 35%)); }
+  .marca__texto { display: flex; flex-direction: column; line-height: 1; }
   .marca__nombre {
-    font-family: Petrona, Georgia, serif;
-    font-size: 1.32rem;
+    font-family: var(--romana);
+    font-size: 1.24rem;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: .04em;
   }
   .marca__sub {
-    font-size: 0.66rem;
+    font-family: var(--romana);
+    font-size: .6rem;
     font-weight: 600;
-    letter-spacing: 0.22em;
+    letter-spacing: .48em;
     text-transform: uppercase;
-    color: var(--vino);
+    color: var(--oro);
+    margin-top: .32rem;
   }
 
   .nav { margin-left: auto; }
-  .nav__lista {
-    display: flex;
-    gap: 1.35rem;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
-  .nav__lista a {
+  .nav ul { display: flex; gap: 1.6rem; list-style: none; margin: 0; padding: 0; }
+  .nav a {
+    position: relative;
+    display: block;
+    padding-block: .5rem;
     color: var(--ink-2);
     text-decoration: none;
-    font-size: 0.92rem;
-    font-weight: 500;
-    padding-block: 0.45rem;
-    border-bottom: 2px solid transparent;
+    font-family: var(--romana);
+    font-size: .76rem;
+    font-weight: 600;
+    letter-spacing: .13em;
+    text-transform: uppercase;
     white-space: nowrap;
-    transition: color 0.15s ease, border-color 0.15s ease;
+    transition: color .18s ease;
   }
-  .nav__lista a:hover { color: var(--vino-ink); }
-  .nav__lista a[aria-current='page'] { color: var(--vino-ink); border-bottom-color: var(--vino); }
+  .nav a::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 1px;
+    background: var(--oro);
+    transform: scaleX(0);
+    transition: transform .22s ease;
+  }
+  .nav a:hover { color: var(--oro-claro); }
+  .nav a:hover::after, .nav a[aria-current='page']::after { transform: scaleX(1); }
+  .nav a[aria-current='page'] { color: var(--oro-claro); }
 
-  .cab__acciones { display: flex; align-items: center; gap: 0.5rem; margin-left: auto; }
+  .cab__acciones { display: flex; align-items: center; gap: .55rem; margin-left: auto; }
   .nav + .cab__acciones { margin-left: 0; }
-
-  .cab__cta { padding: 0.5rem 1rem; font-size: 0.88rem; }
+  .cab__cta { padding: .55rem 1.15rem; min-height: 38px; font-size: .7rem; }
 
   .icono {
     display: grid;
     place-items: center;
-    width: 38px;
-    height: 38px;
-    border: 1px solid var(--line);
+    width: 40px; height: 40px;
+    border: 1px solid var(--line-2);
     border-radius: var(--radio);
     background: transparent;
     color: var(--ink-2);
     cursor: pointer;
-    transition: background 0.15s ease, color 0.15s ease;
+    transition: border-color .18s ease, color .18s ease;
   }
-  .icono:hover { background: var(--surface-2); color: var(--vino-ink); }
+  .icono:hover { border-color: var(--oro); color: var(--oro-claro); }
   .icono--movil { display: none; }
 
   .movil { border-top: 1px solid var(--line); background: var(--surface); }
-  .movil ul { list-style: none; margin: 0; padding: 0.5rem clamp(1rem, 4vw, 2.5rem) 1rem; }
-  .movil li + li { border-top: 1px solid var(--line-soft); }
+  .movil ul { list-style: none; margin: 0; padding: .4rem clamp(1.1rem, 4vw, 3rem) 1.2rem; }
+  .movil li + li { border-top: 1px solid var(--line); }
   .movil a {
     display: block;
-    padding: 0.8rem 0;
+    padding: .95rem 0;
     color: var(--ink);
     text-decoration: none;
-    font-weight: 500;
+    font-family: var(--romana);
+    font-size: .82rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
   }
-  .movil a[aria-current='page'] { color: var(--vino-ink); }
+  .movil a[aria-current='page'] { color: var(--oro-claro); }
 
-  @media (max-width: 1000px) {
-    .nav { display: none; }
+  @media (max-width: 1080px) {
+    .nav, .cab__cta { display: none; }
     .icono--movil { display: grid; }
-    .cab__cta { display: none; }
   }
 </style>
 
 <script>
-  // Tema claro / oscuro, recordado en el navegador de cada visitante.
-  const btn = document.getElementById('tema');
-  btn?.addEventListener('click', () => {
+  // La barra se vuelve opaca al despegarse del borde superior
+  const cab = document.querySelector('.cab');
+  if (cab?.classList.contains('cab--sobre-foto')) {
+    const alSalir = () => cab.classList.toggle('cab--fija', window.scrollY > 24);
+    alSalir();
+    window.addEventListener('scroll', alSalir, { passive: true });
+  }
+
+  document.getElementById('tema')?.addEventListener('click', () => {
     const raiz = document.documentElement;
     const oscuroAhora =
       raiz.dataset.theme === 'dark' ||
-      (!raiz.dataset.theme && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      (!raiz.dataset.theme && !window.matchMedia('(prefers-color-scheme: light)').matches);
     const nuevo = oscuroAhora ? 'light' : 'dark';
     raiz.dataset.theme = nuevo;
     try { localStorage.setItem('lm-tema', nuevo); } catch { /* sin almacenamiento */ }
   });
 
-  // Menú móvil
   const abrir = document.getElementById('abrir-menu');
   const menu = document.getElementById('menu-movil');
   abrir?.addEventListener('click', () => {

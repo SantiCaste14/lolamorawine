@@ -14,7 +14,7 @@ collections:
   - name: productos
     label: Productos
     label_singular: producto
-    folder: src/content/productos
+    folder: src/data/productos
     create: true
     format: yaml-frontmatter
     slug: '{{slug}}'
@@ -43,7 +43,7 @@ collections:
   - name: noticias
     label: Noticias
     label_singular: noticia
-    folder: src/content/noticias
+    folder: src/data/noticias
     create: true
     format: yaml-frontmatter
     slug: '{{year}}-{{month}}-{{slug}}'
@@ -59,7 +59,7 @@ collections:
 
   - name: historia
     label: Lola Mora (historia)
-    folder: src/content/historia
+    folder: src/data/historia
     create: true
     format: yaml-frontmatter
     fields: &editorial
@@ -73,28 +73,28 @@ collections:
 
   - name: finca
     label: Finca El Dátil
-    folder: src/content/finca
+    folder: src/data/finca
     create: true
     format: yaml-frontmatter
     fields: *editorial
 
   - name: vinos
     label: Guías del vino
-    folder: src/content/vinos
+    folder: src/data/vinos
     create: true
     format: yaml-frontmatter
     fields: *editorial
 
   - name: delicatessen
     label: Delicatessen (artículos)
-    folder: src/content/delicatessen
+    folder: src/data/delicatessen
     create: true
     format: yaml-frontmatter
     fields: *editorial
 
   - name: paginas
     label: Páginas institucionales
-    folder: src/content/paginas
+    folder: src/data/paginas
     create: true
     format: yaml-frontmatter
     fields: *editorial

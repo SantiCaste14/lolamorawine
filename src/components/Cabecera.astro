@@ -28,7 +28,7 @@ const sobreFoto = actual === '/';
 
     <div class="cab__acciones">
       <a class="boton boton--oro cab__cta" href={u('/contacto/')}>Contacto</a>
-      <button id="tema" class="icono" type="button" aria-label="Cambiar entre tema claro y oscuro">
+      <button id="tema" class="icono" type="button" aria-label="Cambiar tema" title="Cambiar tema">
         <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
           <path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
@@ -187,22 +187,48 @@ const sobreFoto = actual === '/';
     window.addEventListener('scroll', alSalir, { passive: true });
   }
 
-  document.getElementById('tema')?.addEventListener('click', () => {
+  const botonTema = document.getElementById('tema');
+  const temaOscuroActivo = () => {
     const raiz = document.documentElement;
-    const oscuroAhora =
-      raiz.dataset.theme === 'dark' ||
+    return raiz.dataset.theme === 'dark' ||
       (!raiz.dataset.theme && !window.matchMedia('(prefers-color-scheme: light)').matches);
+  };
+  const anunciarTema = () => {
+    if (!botonTema) return;
+    const accion = temaOscuroActivo() ? 'Activar tema claro' : 'Activar tema oscuro';
+    botonTema.setAttribute('aria-label', accion);
+    botonTema.setAttribute('title', accion);
+  };
+  anunciarTema();
+
+  botonTema?.addEventListener('click', () => {
+    const raiz = document.documentElement;
+    const oscuroAhora = temaOscuroActivo();
     const nuevo = oscuroAhora ? 'light' : 'dark';
     raiz.dataset.theme = nuevo;
     try { localStorage.setItem('lm-tema', nuevo); } catch { /* sin almacenamiento */ }
+    anunciarTema();
   });
 
   const abrir = document.getElementById('abrir-menu');
   const menu = document.getElementById('menu-movil');
-  abrir?.addEventListener('click', () => {
-    const abierto = abrir.getAttribute('aria-expanded') === 'true';
-    abrir.setAttribute('aria-expanded', String(!abierto));
-    abrir.setAttribute('aria-label', abierto ? 'Abrir menú' : 'Cerrar menú');
-    if (menu) menu.hidden = abierto;
+  const cambiarMenu = (abrirMenu: boolean) => {
+    if (!abrir || !menu) return;
+    abrir.setAttribute('aria-expanded', String(abrirMenu));
+    abrir.setAttribute('aria-label', abrirMenu ? 'Cerrar menú' : 'Abrir menú');
+    menu.hidden = !abrirMenu;
+  };
+  abrir?.addEventListener('click', () => cambiarMenu(abrir.getAttribute('aria-expanded') !== 'true'));
+  menu?.addEventListener('click', (evento) => {
+    if (evento.target instanceof HTMLAnchorElement) cambiarMenu(false);
   });
+  document.addEventListener('keydown', (evento) => {
+    if (evento.key === 'Escape' && abrir?.getAttribute('aria-expanded') === 'true') {
+      cambiarMenu(false);
+      abrir.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1080) cambiarMenu(false);
+  }, { passive: true });
 </script>

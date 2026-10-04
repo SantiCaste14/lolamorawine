@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Encabezado from '../../components/Encabezado.astro';
 import Miga from '../../components/Miga.astro';
 import creditos from '../../lib/creditos.json';
+import { u } from '../../lib/sitio';
 
 const descripcion =
   'Autoría y licencia de las fotografías de este sitio, y origen de los elementos de marca.';
@@ -24,7 +25,7 @@ const descripcion =
     <ul class="lista">
       {creditos.map((c) => (
         <li class="cred">
-          <img src={c.archivo} alt="" width="120" height="80" loading="lazy" decoding="async" />
+          <img src={u(c.archivo)} alt="" width="120" height="80" loading="lazy" decoding="async" />
           <div>
             <p class="cred__titulo">{c.titulo}</p>
             <p class="cred__meta">{c.autor}</p>

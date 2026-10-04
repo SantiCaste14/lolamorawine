@@ -1,5 +1,0 @@
-User-agent: *
-Allow: /
-
-# El sitio nuevo no tiene areas privadas: se indexa completo.
-Sitemap: https://www.lolamorawine.com.ar/sitemap-index.xml

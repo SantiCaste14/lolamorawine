@@ -23,12 +23,12 @@ const pasos = [
     <Miga items={[{ texto: 'Regalos corporativos' }]} />
     <Encabezado
       antetitulo="Empresas"
-      titulo="Regalos corporativos con producción propia"
+      titulo="Regalos corporativos a medida"
       bajada={descripcion}
     />
 
     <div class="aviso">
-      <p><strong>Pedidos hasta el 15 de noviembre para entrega en diciembre.</strong> La producción de estuches es limitada y se reserva por orden de confirmación.</p>
+      <p><strong>Consultá disponibilidad y plazo antes de confirmar.</strong> Los estuches se preparan por pedido y las opciones pueden variar según el stock de cada producto.</p>
       <a class="boton" href={u('/contacto/')}>Pedir cotización</a>
     </div>
 
@@ -95,7 +95,7 @@ const pasos = [
     border-radius: var(--radio);
   }
   .pasos__n {
-    font-family: Petrona, serif;
+    font-family: var(--serif);
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--vino);

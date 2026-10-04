@@ -26,15 +26,17 @@ const schema = {
   category: cat.nombre,
   ...(d.portada ? { image: new URL(u(d.portada), Astro.site).href } : {}),
   brand: { '@type': 'Brand', name: 'Lola Mora' },
-  offers: {
-    '@type': 'Offer',
-    priceCurrency: 'ARS',
-    availability: d.disponible
-      ? 'https://schema.org/InStock'
-      : 'https://schema.org/OutOfStock',
-    url: d.mercadolibre ?? new URL(Astro.url.pathname, Astro.site).href,
-    ...(d.precio ? { price: d.precio } : {}),
-  },
+  ...((d.precio || d.mercadolibre) && d.disponible !== undefined ? {
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'ARS',
+      availability: d.disponible
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock',
+      url: d.mercadolibre ?? new URL(Astro.url.pathname, Astro.site).href,
+      ...(d.precio ? { price: d.precio } : {}),
+    },
+  } : {}),
 };
 
 const fichaVino = [
@@ -46,6 +48,7 @@ const fichaVino = [
 ].filter(([, v]) => Boolean(v)) as [string, string][];
 
 const esVino = d.categoria === 'vinos';
+const faltaTrazabilidadVino = esVino && (!d.anada || !d.graduacion || !d.origen);
 
 // En muchas fichas la descripcion corta se derivo del propio texto. Si el cuerpo
 // empieza igual, mostrar las dos seria repetir lo mismo dos veces en pantalla.
@@ -54,6 +57,10 @@ const normalizar = (s: string) =>
 const cuerpoPlano = normalizar(p.body ?? '');
 const descPlana = normalizar(d.descripcion).replace(/…$/, '').slice(0, 60);
 const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(descPlana);
+const consulta = `${u('/contacto/')}?${new URLSearchParams({
+  producto: d.titulo,
+  tipo: d.categoria === 'regalos' ? 'cotizacion' : 'consulta',
+}).toString()}`;
 ---
 
 <Base titulo={d.titulo} descripcion={d.descripcion} imagen={d.portada} tipo="article" schema={schema}>
@@ -83,11 +90,11 @@ const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(des
 
         <div class="ficha__acciones">
           {d.mercadolibre && (
-            <a class="boton" href={d.mercadolibre} rel="noopener nofollow" target="_blank">
+            <a class="boton" href={d.mercadolibre} rel="noopener nofollow" target="_blank" data-analytics="purchase_marketplace" data-product={d.titulo}>
               Comprar en MercadoLibre
             </a>
           )}
-          <a class={d.mercadolibre ? 'boton boton--linea' : 'boton'} href={u('/contacto/')}>
+          <a class={d.mercadolibre ? 'boton boton--linea' : 'boton'} href={consulta} data-analytics="product_inquiry" data-product={d.titulo}>
             {d.categoria === 'regalos' ? 'Pedir cotización' : 'Consultar'}
           </a>
         </div>
@@ -110,8 +117,14 @@ const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(des
               </dl>
             ) : (
               <p class="ficha__pendiente">
-                Añada, graduación y contenido neto se publican al confirmarse la partida en curso.
-                Consultanos y te enviamos la ficha técnica vigente.
+                La añada, graduación, procedencia y bodega elaboradora se confirman para cada
+                partida. Consultanos y te enviamos la ficha técnica y una foto de la contraetiqueta.
+              </p>
+            )}
+            {faltaTrazabilidadVino && fichaVino.length > 0 && (
+              <p class="ficha__pendiente">
+                La añada, graduación, procedencia y bodega elaboradora se confirman para cada
+                partida. Consultanos y te enviamos la ficha técnica y una foto de la contraetiqueta.
               </p>
             )}
             {sitio.empresa.inv && <p class="ficha__inv">Inscripción INV {sitio.empresa.inv}</p>}
@@ -151,14 +164,14 @@ const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(des
     place-items: center;
     background: linear-gradient(135deg, var(--vino-wash), var(--oro-wash));
     color: var(--vino-ink);
-    font-family: Petrona, serif;
+    font-family: var(--serif);
   }
 
   .ficha__datos { display: flex; flex-direction: column; gap: 0.8rem; }
   .ficha__desc { color: var(--muted); font-size: 1.02rem; }
 
   .ficha__precio { margin-top: 0.5rem; }
-  .ficha__valor { font-family: Petrona, serif; font-size: 2rem; font-weight: 600; }
+  .ficha__valor { font-family: var(--serif); font-size: 2rem; font-weight: 600; }
   .ficha__iva { font-size: 0.82rem; color: var(--muted); }
   .ficha__consultar {
     display: inline-block;
@@ -194,7 +207,7 @@ const descripcionDuplicada = descPlana.length > 20 && cuerpoPlano.startsWith(des
   }
   .ficha__tabla dt { color: var(--muted); }
   .ficha__tabla dd { margin: 0; font-weight: 500; }
-  .ficha__pendiente { font-size: 0.9rem; color: var(--muted); }
+  .ficha__pendiente { font-size: 0.9rem; color: var(--muted); margin-top: 0.8rem; }
   .ficha__inv { font-size: 0.8rem; color: var(--faint); margin-top: 0.7rem; }
 
   .ficha__prosa { margin-top: clamp(2.5rem, 5vw, 3.5rem); }

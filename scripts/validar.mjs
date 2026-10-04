@@ -2,7 +2,7 @@
 // Comprueba exactamente lo que estaba roto en el Joomla anterior, para que no vuelva a pasar.
 // Uso: npm run build && npm run validar
 import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs';
-import { join, relative, posix } from 'node:path';
+import { join, relative } from 'node:path';
 
 const DIST = 'dist';
 const BASE = (process.env.BASE_PATH ?? '/lolamorawine').replace(/\/$/, '');
@@ -105,19 +105,40 @@ for (const archivo of reales) {
 
   // 10. Enlaces internos que apuntan a una pagina inexistente
   for (const m of html.matchAll(/<a\b[^>]*href="([^"]+)"/gi)) {
-    const href = m[1];
-    if (!href.startsWith(BASE + '/')) continue;
-    if (/\.(pdf|xml|svg|webp|jpe?g|png|ico|txt)$/i.test(href)) {
-      const rec = join(DIST, href.slice(BASE.length + 1));
+    const href = m[1].replaceAll('&amp;', '&');
+    const rutaHref = href.split(/[?#]/)[0];
+    if (!rutaHref.startsWith(BASE + '/')) continue;
+    if (/\.(pdf|xml|svg|webp|jpe?g|png|ico|txt)$/i.test(rutaHref)) {
+      const rec = join(DIST, rutaHref.slice(BASE.length + 1));
       if (!existsSync(rec)) fallos.push(`${ruta} — enlace a archivo inexistente: ${href}`);
       continue;
     }
-    const destino = join(DIST, href.slice(BASE.length + 1), 'index.html');
+    const destino = join(DIST, rutaHref.slice(BASE.length + 1), 'index.html');
     if (!existsSync(destino)) fallos.push(`${ruta} — enlace roto: ${href}`);
+  }
+
+  // 11. Ningún recurso interno puede escapar de `base` en GitHub Pages.
+  // Esta comprobación faltaba y el servidor local ocultaba el problema al
+  // resolver `/img/...` directamente contra dist/.
+  if (BASE && BASE !== '/') {
+    for (const m of html.matchAll(/\b(href|src|poster|action)="(\/[^/"][^"]*)"/gi)) {
+      const [, atributo, valor] = m;
+      if (!valor.startsWith(BASE + '/') && valor !== BASE) {
+        fallos.push(`${ruta} — ${atributo} escapa de BASE_PATH: ${valor}`);
+      }
+    }
+    for (const m of html.matchAll(/\bsrcset="([^"]+)"/gi)) {
+      for (const candidato of m[1].split(',')) {
+        const valor = candidato.trim().split(/\s+/)[0];
+        if (valor?.startsWith('/') && !valor.startsWith(BASE + '/')) {
+          fallos.push(`${ruta} — srcset escapa de BASE_PATH: ${valor}`);
+        }
+      }
+    }
   }
 }
 
-// 11. Archivos que deben existir
+// 12. Archivos que deben existir
 for (const f of ['sitemap-index.xml', 'robots.txt', '_redirects', '_headers', '404.html', 'favicon.svg']) {
   if (!existsSync(join(DIST, f))) avisos.push(`falta dist/${f}`);
 }

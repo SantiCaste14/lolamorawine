@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Cabecera from '../components/Cabecera.astro';
 import Pie from '../components/Pie.astro';
 import ControlEdad from '../components/ControlEdad.astro';
+import Analitica from '../components/Analitica.astro';
 import { sitio, u } from '../lib/sitio';
 
 interface Props {
@@ -30,10 +31,12 @@ const {
 const tituloCompleto = titulo === sitio.nombre ? titulo : `${titulo} | ${sitio.nombre}`;
 const canonica = new URL(Astro.url.pathname, Astro.site).href;
 const imagenAbsoluta = new URL(u(imagen), Astro.site).href;
+const esProduccion = ['lolamorawine.com.ar', 'www.lolamorawine.com.ar'].includes(Astro.site?.hostname ?? '');
+const noIndexFinal = noIndex || !esProduccion;
 
 const organizacion = {
   '@context': 'https://schema.org',
-  '@type': 'Winery',
+  '@type': 'Organization',
   name: sitio.nombre,
   description: sitio.descripcion,
   url: new URL(u('/'), Astro.site).href,
@@ -52,7 +55,7 @@ const organizacion = {
     <title>{tituloCompleto}</title>
     <meta name="description" content={descripcion} />
     <link rel="canonical" href={canonica} />
-    {noIndex && <meta name="robots" content="noindex, follow" />}
+    {noIndexFinal && <meta name="robots" content="noindex, nofollow" />}
 
     <meta name="generator" content={Astro.generator} />
     <meta name="theme-color" content="#f4efe6" media="(prefers-color-scheme: light)" />
@@ -100,5 +103,6 @@ const organizacion = {
       <slot />
     </main>
     <Pie />
+    <Analitica />
   </body>
 </html>

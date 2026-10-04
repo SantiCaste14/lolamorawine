@@ -1,4 +1,5 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { glob } from 'astro/loaders';
 
 /** Campos que comparten todas las colecciones editoriales. */
@@ -18,7 +19,7 @@ const base = {
 };
 
 const md = (carpeta: string) =>
-  glob({ pattern: '**/*.md', base: `./src/content/${carpeta}` });
+  glob({ pattern: '**/*.md', base: `./src/data/${carpeta}` });
 
 /** Fichas de producto: vinos, delicatessen y regalos empresariales. */
 const productos = defineCollection({
@@ -30,7 +31,7 @@ const productos = defineCollection({
      *  la ficha muestra "Consultar" en lugar de un precio falso. */
     precio: z.number().positive().optional(),
     /** Enlace a la publicacion de MercadoLibre, si existe. */
-    mercadolibre: z.string().url().optional(),
+    mercadolibre: z.url().optional(),
     /** Lista de componentes, para los packs de regalo. */
     contenido: z.array(z.string()).optional(),
     /** Datos de ficha tecnica de vino. */
@@ -39,10 +40,12 @@ const productos = defineCollection({
     graduacion: z.string().optional(),
     volumen: z.string().optional(),
     origen: z.string().optional(),
-    disponible: z.boolean().default(true),
+    disponible: z.boolean().optional(),
   }),
 });
 
+// El Content Layer actual requiere que las colecciones con loader vivan fuera
+// de src/content. src/data evita el modo heredado y compila igual en CI y local.
 const vinos = defineCollection({ loader: md('vinos'), schema: z.object(base) });
 const delicatessen = defineCollection({ loader: md('delicatessen'), schema: z.object(base) });
 const historia = defineCollection({ loader: md('historia'), schema: z.object(base) });

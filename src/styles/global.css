@@ -26,7 +26,7 @@
   --ink: #f3ece4;
   --ink-2: #d8cec4;
   --muted: #a1938a;
-  --faint: #78695f;
+  --faint: #a99a90;
 
   --line: #2e2322;
   --line-2: #3c2d2c;
@@ -36,8 +36,8 @@
   --vino-prof: #6d1417;
   --vino-wash: #24100f;
 
-  --oro: #c9962f;
-  --oro-claro: #e8c36a;
+  --oro: #d5a640;
+  --oro-claro: #f0cc7c;
   --oro-wash: #241c0e;
   --crema: #f5ebd2;
 
@@ -65,7 +65,7 @@
     --ink: #1a1312;
     --ink-2: #3d2f2c;
     --muted: #6d5d55;
-    --faint: #93827a;
+    --faint: #6f5e56;
 
     --line: #ddd0bd;
     --line-2: #cbbba4;
@@ -75,8 +75,8 @@
     --vino-prof: #6d1417;
     --vino-wash: #f6e6e3;
 
-    --oro: #97701c;
-    --oro-claro: #b8892a;
+    --oro: #704f0b;
+    --oro-claro: #684706;
     --oro-wash: #f3ead6;
     --crema: #4a3a18;
 
@@ -94,15 +94,15 @@
   --ink: #1a1312;
   --ink-2: #3d2f2c;
   --muted: #6d5d55;
-  --faint: #93827a;
+  --faint: #6f5e56;
   --line: #ddd0bd;
   --line-2: #cbbba4;
   --vino: #a72023;
   --vino-vivo: #8a181b;
   --vino-prof: #6d1417;
   --vino-wash: #f6e6e3;
-  --oro: #97701c;
-  --oro-claro: #b8892a;
+  --oro: #704f0b;
+  --oro-claro: #684706;
   --oro-wash: #f3ead6;
   --crema: #4a3a18;
   --sombra: 0 1px 3px rgb(60 40 30 / 8%), 0 16px 40px -22px rgb(60 40 30 / 28%);

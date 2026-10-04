@@ -1,15 +1,17 @@
 ---
-// Verificación de edad exigida por la Ley 24.788 para sitios que promocionan alcohol.
+// Verificación preventiva de edad para un sitio que promociona alcohol.
+// Ayuda a cumplir la prohibición de venta a menores, pero no sustituye la
+// verificación comercial que corresponda al confirmar una operación.
 // Se pinta oculto y sólo el script lo muestra, para que nunca bloquee a los buscadores
 // ni a quien navegue sin JavaScript.
 import { sitio } from '../lib/sitio';
 ---
 
 <div id="control-edad" class="edad" hidden>
-  <div class="edad__caja" role="dialog" aria-modal="true" aria-labelledby="edad-titulo">
+  <div class="edad__caja" role="dialog" aria-modal="true" aria-labelledby="edad-titulo" aria-describedby="edad-descripcion">
     <p class="edad__marca">Lola Mora <span>Wine</span></p>
     <h2 id="edad-titulo">¿Sos mayor de 18 años?</h2>
-    <p class="edad__texto">
+    <p id="edad-descripcion" class="edad__texto">
       Este sitio contiene información sobre bebidas alcohólicas.
       Para ingresar tenés que ser mayor de edad.
     </p>
@@ -44,7 +46,7 @@ import { sitio } from '../lib/sitio';
     text-align: center;
   }
   .edad__marca {
-    font-family: Petrona, Georgia, serif;
+    font-family: var(--serif);
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 1.2rem;
@@ -77,15 +79,44 @@ import { sitio } from '../lib/sitio';
   const CLAVE = 'lm-edad-ok';
   const caja = document.getElementById('control-edad');
   let yaPaso = false;
-  try { yaPaso = localStorage.getItem(CLAVE) === '1'; } catch { yaPaso = true; }
+  try { yaPaso = localStorage.getItem(CLAVE) === '1'; } catch { yaPaso = false; }
 
   if (!yaPaso && caja) {
+    const fondo = [...document.body.children].filter(
+      (elemento): elemento is HTMLElement => elemento !== caja && elemento instanceof HTMLElement
+    );
+    const focoAnterior = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    const interactivos = (): HTMLElement[] => [...caja.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])')]
+      .filter((elemento): elemento is HTMLElement => elemento instanceof HTMLElement && !elemento.hidden);
+
     caja.hidden = false;
+    fondo.forEach((elemento) => { elemento.inert = true; });
     document.body.style.overflow = 'hidden';
+    requestAnimationFrame(() => document.getElementById('edad-si')?.focus());
+
+    caja.addEventListener('keydown', (evento) => {
+      if (evento.key !== 'Tab') return;
+      const elementos = interactivos();
+      const primero = elementos[0];
+      const ultimo = elementos.at(-1);
+      if (!primero || !ultimo) return;
+      if (evento.shiftKey && document.activeElement === primero) {
+        evento.preventDefault();
+        ultimo.focus();
+      } else if (!evento.shiftKey && document.activeElement === ultimo) {
+        evento.preventDefault();
+        primero.focus();
+      }
+    });
+
     document.getElementById('edad-si')?.addEventListener('click', () => {
       try { localStorage.setItem(CLAVE, '1'); } catch { /* sin almacenamiento */ }
       caja.hidden = true;
+      fondo.forEach((elemento) => { elemento.inert = false; });
       document.body.style.overflow = '';
+      (focoAnterior && focoAnterior !== document.body
+        ? focoAnterior
+        : document.querySelector<HTMLElement>('.marca'))?.focus();
     });
   }
 </script>

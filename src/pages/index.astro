@@ -11,6 +11,8 @@ const packs = (await productosPorCategoria('regalos')).slice(0, 3);
 const noticias = (await publicadas('noticias')).slice(0, 3);
 
 const HERO = '/img/foto/nereidas-detalle.webp';
+const HERO_720 = '/img/foto/nereidas-detalle-720.webp';
+const HERO_1280 = '/img/foto/nereidas-detalle-1280.webp';
 const OBRA = '/img/foto/nereidas-tritones.webp';
 const CASA = '/img/foto/casa-natal.webp';
 const TEXTURA = '/img/foto/textura-bodega.webp';
@@ -19,17 +21,27 @@ const TEXTURA = '/img/foto/textura-bodega.webp';
 <Base titulo={sitio.nombre} descripcion={sitio.descripcion}>
   {/* ═══════════════ Portada: la obra de Lola Mora a sangre ═══════════════ */}
   <section class="hero">
-    <img class="hero__foto" src={u(HERO)} alt="Fuente de las Nereidas, obra de Lola Mora" fetchpriority="high" decoding="async" width="1800" height="1350" />
+    <img
+      class="hero__foto"
+      src={u(HERO)}
+      srcset={`${u(HERO_720)} 720w, ${u(HERO_1280)} 1280w, ${u(HERO)} 1800w`}
+      sizes="100vw"
+      alt="Fuente de las Nereidas, obra de Lola Mora"
+      fetchpriority="high"
+      decoding="async"
+      width="1800"
+      height="1350"
+    />
     <div class="hero__velo" aria-hidden="true"></div>
 
     <div class="contenedor hero__contenido">
-      <p class="versal versal--centro hero__versal">Finca El Dátil · Argentina</p>
+      <p class="versal versal--centro hero__versal">El Tala, Salta · Argentina</p>
       <h1 class="hero__titulo">
         Vinos con <em>historia</em>
       </h1>
       <p class="hero__bajada">
-        Arte argentino en cada etiqueta. Malbec y Tempranillo, jamón crudo y salame
-        de llama, elaborados en la finca que dio origen a la marca.
+        Arte argentino en cada etiqueta. Una marca nacida de la historia de Finca El
+        Dátil, con vinos, delicatessen y regalos para compartir.
       </p>
       <div class="hero__cta">
         <a class="boton" href={u('/vinos/')}>Ver los vinos</a>
@@ -72,8 +84,8 @@ const TEXTURA = '/img/foto/textura-bodega.webp';
     <div class="contenedor manifiesto__contenido">
       <Escudo alto={112} class="manifiesto__escudo" />
       <blockquote>
-        Una escultora que desafió a su época. Una finca que conserva sus carruajes
-        y sus caballos. Y un vino que lleva las dos historias en la etiqueta.
+        Una escultora que desafió a su época. Una finca salteña que conserva sus
+        carruajes y sus caballos. Y un vino que lleva esas historias en la etiqueta.
       </blockquote>
       <a class="boton boton--oro" href={u('/lola-mora/')}>Conocer a Lola Mora</a>
     </div>
@@ -110,16 +122,16 @@ const TEXTURA = '/img/foto/textura-bodega.webp';
       <span class="duo__texto">
         <span class="versal">La artista</span>
         <span class="duo__titulo">Lola Mora</span>
-        <span class="duo__desc">La escultora tucumana que desafió a su época y dio nombre a la marca.</span>
+        <span class="duo__desc">La escultora argentina que desafió a su época y dio nombre a la marca.</span>
       </span>
     </a>
     <a class="duo__mitad" href={u('/finca-el-datil/')}>
-      <img src={u(CASA)} alt="Dibujo a pluma de la casa natal de Lola Mora, en Finca El Dátil" loading="lazy" decoding="async" width="1400" height="1050" />
+      <img src={u(CASA)} alt="Dibujo a pluma de la casa histórica de Finca El Dátil" loading="lazy" decoding="async" width="1400" height="1050" />
       <span class="duo__velo" aria-hidden="true"></span>
       <span class="duo__texto">
         <span class="versal">El origen</span>
         <span class="duo__titulo">Finca El Dátil</span>
-        <span class="duo__desc">Caballos peruanos de paso, carruajes antiguos y la casa natal.</span>
+        <span class="duo__desc">Caballos peruanos de paso, carruajes antiguos y una casa vinculada a la historia de la artista.</span>
       </span>
     </a>
   </section>

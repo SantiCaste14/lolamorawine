@@ -16,19 +16,20 @@ const faltanDatos = !sitio.empresa.razonSocial || !sitio.empresa.cuit;
 
     {faltanDatos && (
       <aside class="pendiente">
-        <strong>Pendiente de completar.</strong> La razón social, el CUIT y el domicilio se cargan
-        en <code>src/lib/sitio.ts</code> y aparecen automáticamente en esta página. Revisá el texto
-        con un profesional antes de habilitar la venta online.
+        <strong>Sitio en modalidad catálogo.</strong> No se procesan pagos ni se perfeccionan
+        compras en línea. Antes de aceptar un pedido, el vendedor debe informar su razón social,
+        CUIT, domicilio, precio final, disponibilidad y condiciones de entrega.
       </aside>
     )}
 
     <div class="prosa">
       <h2>1. Titular del sitio</h2>
       <p>
-        {sitio.empresa.razonSocial || 'Lola Mora Wine'}
-        {sitio.empresa.cuit ? `, CUIT ${sitio.empresa.cuit}` : ''}
-        {sitio.empresa.domicilio ? `, con domicilio en ${sitio.empresa.domicilio}` : ''}
-        , es el titular de este sitio.
+        {sitio.empresa.razonSocial ? (
+          <>{sitio.empresa.razonSocial}{sitio.empresa.cuit ? `, CUIT ${sitio.empresa.cuit}` : ''}{sitio.empresa.domicilio ? `, con domicilio en ${sitio.empresa.domicilio}` : ''}, es el titular de este sitio.</>
+        ) : (
+          <>La identificación legal completa del vendedor debe ser informada antes de que la persona consumidora confirme un pedido o realice un pago.</>
+        )}
       </p>
 
       <h2>2. Venta de bebidas alcohólicas</h2>
@@ -39,8 +40,9 @@ const faltanDatos = !sitio.empresa.razonSocial || !sitio.empresa.cuit;
 
       <h2>3. Precios y disponibilidad</h2>
       <p>
-        Los precios se expresan en pesos argentinos e incluyen IVA. La disponibilidad está sujeta a
-        stock. Cuando un producto no muestra precio, significa que debe consultarse antes de comprar.
+        Cuando se publique un precio, se expresará en pesos argentinos y se indicará si incluye IVA.
+        La disponibilidad está sujeta a confirmación. Si un producto no muestra precio, la ficha es
+        informativa y debe solicitarse una cotización antes de comprar.
       </p>
 
       <h2>4. Derecho de revocación</h2>

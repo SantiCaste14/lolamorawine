@@ -56,7 +56,7 @@ Requiere **Node.js 22 o superior**.
 ```
 lolamorawine/
 ├── src/
-│   ├── content/          ← EL CONTENIDO. Es lo único que se toca habitualmente
+│   ├── data/             ← EL CONTENIDO. Es lo único que se toca habitualmente
 │   │   ├── productos/       12 fichas (vinos, delicatessen, estuches)
 │   │   ├── noticias/         6 novedades
 │   │   ├── historia/        14 páginas sobre Lola Mora
@@ -174,7 +174,7 @@ vacíos, las páginas muestran un aviso en lugar de datos inventados.
 
 Esto es un catálogo, no una tienda. Para empezar a facturar:
 
-1. **Cargar los precios reales** en `src/content/productos/` (ver CONTENIDO.md)
+1. **Cargar los precios reales** en `src/data/productos/` (ver CONTENIDO.md)
 2. **Completar los datos fiscales** en `src/lib/sitio.ts`
 3. **Publicar en MercadoLibre** y pegar los links en cada ficha
 4. **Sesión de fotos**: las actuales son de 480×480 px, suficientes para MercadoLibre

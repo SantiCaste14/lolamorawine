@@ -19,17 +19,18 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
     <div class="cols">
       <section class="via">
         <h2>Comprar o consultar</h2>
+        <p id="consulta-contexto" class="via__contexto" hidden></p>
         <p class="via__texto">
           Para pedidos de vinos y delicatessen, disponibilidad y precios vigentes.
         </p>
         <div class="via__acciones">
           {sitio.contacto.email && (
-            <a class="boton" href={`mailto:${sitio.contacto.email}?subject=${asunto}`}>
+            <a id="contacto-email" class="boton" href={`mailto:${sitio.contacto.email}?subject=${asunto}`} data-analytics="contact_email" data-link-type="email">
               Escribir por email
             </a>
           )}
           {waLimpio && (
-            <a class="boton boton--linea" href={`https://wa.me/${waLimpio}`} rel="noopener" target="_blank">
+            <a class="boton boton--linea" href={`https://wa.me/${waLimpio}`} rel="noopener" target="_blank" data-analytics="contact_whatsapp" data-link-type="whatsapp">
               WhatsApp
             </a>
           )}
@@ -46,6 +47,8 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
           {sitio.contacto.email && (
             <a
               class="boton"
+              data-analytics="corporate_quote"
+              data-link-type="email"
               href={`mailto:${sitio.contacto.email}?subject=${encodeURIComponent('Cotización de regalos corporativos')}&body=${encodeURIComponent(
                 'Empresa:\nCUIT:\nContacto:\nCantidad estimada:\nPresupuesto por unidad:\nFecha de entrega:\nDestino(s):\n¿Personalización con logo?:\n'
               )}`}
@@ -58,7 +61,7 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
     </div>
 
     <section class="datos">
-      <h2>Datos de la empresa</h2>
+      <h2>Datos comerciales</h2>
       <dl>
         {sitio.empresa.razonSocial && (<><dt>Razón social</dt><dd>{sitio.empresa.razonSocial}</dd></>)}
         {sitio.empresa.cuit && (<><dt>CUIT</dt><dd>{sitio.empresa.cuit}</dd></>)}
@@ -69,8 +72,9 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
       </dl>
       {!sitio.empresa.cuit && (
         <p class="pendiente">
-          Los datos fiscales se publican al completarse la inscripción.
-          Mientras tanto, escribinos por email y te los enviamos.
+          Este sitio funciona como catálogo y no procesa pagos en línea. Antes de confirmar un
+          pedido, solicitá por email la razón social, CUIT, domicilio, datos de facturación,
+          disponibilidad, precio final y condiciones de entrega del vendedor.
         </p>
       )}
       <p class="arrep">
@@ -96,6 +100,7 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
   .via--destacada { border-color: var(--oro); background: var(--oro-wash); }
   .via h2 { font-size: 1.2rem; }
   .via__texto { color: var(--muted); font-size: 0.95rem; }
+  .via__contexto { color: var(--ink); font-weight: 600; font-size: 0.95rem; }
   .via__acciones { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 0.5rem; }
 
   .datos { margin-top: clamp(2.5rem, 5vw, 3.5rem); padding-top: 2rem; border-top: 1px solid var(--line); }
@@ -113,3 +118,22 @@ const asunto = encodeURIComponent('Consulta desde lolamorawine.com.ar');
   .pendiente { margin-top: 1rem; font-size: 0.9rem; color: var(--muted); max-width: 56ch; }
   .arrep { margin-top: 1.5rem; font-size: 0.9rem; display: flex; gap: 0.5rem; flex-wrap: wrap; }
 </style>
+
+<script define:vars={{ email: sitio.contacto.email }} is:inline>
+  const parametros = new URLSearchParams(window.location.search);
+  const producto = (parametros.get('producto') || '').trim().slice(0, 120);
+  const tipo = parametros.get('tipo') === 'cotizacion' ? 'cotizacion' : 'consulta';
+  const contexto = document.getElementById('consulta-contexto');
+  const enlace = document.getElementById('contacto-email');
+
+  if (producto && contexto && enlace && email) {
+    contexto.hidden = false;
+    contexto.textContent = `Tu consulta: ${producto}`;
+    const asunto = tipo === 'cotizacion'
+      ? `Cotización: ${producto}`
+      : `Consulta: ${producto}`;
+    const cuerpo = `Producto: ${producto}\n\nNombre:\nLocalidad:\nCantidad:\nConsulta:\n`;
+    enlace.setAttribute('href', `mailto:${email}?subject=${encodeURIComponent(asunto)}&body=${encodeURIComponent(cuerpo)}`);
+    enlace.setAttribute('data-product', producto);
+  }
+</script>

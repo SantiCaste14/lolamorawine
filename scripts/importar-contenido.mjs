@@ -1,11 +1,11 @@
 // Convierte el backup del Joomla viejo en colecciones de contenido de Astro.
 // Entrada: ../backup-2026-08-28/md/*.md
-// Salida:  src/content/<coleccion>/*.md  +  public/img/**
+// Salida:  src/data/<coleccion>/*.md  +  public/img/**
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync, rmSync, copyFileSync } from 'node:fs';
 import { join, basename, dirname } from 'node:path';
 
 const BK = join('..', 'backup-2026-08-28');
-const OUT = join('src', 'content');
+const OUT = join('src', 'data');
 const IMGOUT = join('public', 'img');
 
 // ---------------------------------------------------------------- clasificacion

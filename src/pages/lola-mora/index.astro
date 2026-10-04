@@ -10,10 +10,17 @@ const grupos = porGrupo(entradas);
 const agrupar = true && grupos.length > 1;
 ---
 
-<Base titulo="Lola Mora" descripcion="La escultora tucumana que dio nombre a la marca: su biografía, sus obras y la documentación sobre su origen.">
+<Base titulo="Lola Mora" descripcion="La escultora argentina que dio nombre a la marca: su biografía, sus obras y las distintas fuentes sobre su origen.">
   <div class="contenedor seccion">
     <Miga items={[{ texto: 'Lola Mora' }]} />
-    <Encabezado antetitulo="Historia" titulo="Lola Mora" bajada="La escultora tucumana que dio nombre a la marca: su biografía, sus obras y la documentación sobre su origen." />
+    <Encabezado antetitulo="Historia" titulo="Lola Mora" bajada="La escultora argentina que dio nombre a la marca: su biografía, sus obras y las distintas fuentes sobre su origen." />
+
+    <aside class="aclaracion">
+      <strong>Nota histórica:</strong> las fuentes públicas no coinciden sobre la fecha y el
+      lugar exactos de su nacimiento. El archivo de la marca desarrolla la versión de El Tala,
+      Salta; otras fuentes la sitúan en Tucumán. Los artículos se presentan como documentación
+      histórica y no como una controversia definitivamente resuelta.
+    </aside>
 
     {agrupar ? grupos.map(([grupo, items]) => (
       <section class="grupo">
@@ -48,6 +55,14 @@ const agrupar = true && grupos.length > 1;
 </Base>
 
 <style>
+  .aclaracion {
+    margin-bottom: 2rem;
+    padding: 1rem 1.2rem;
+    color: var(--ink-2);
+    background: var(--oro-wash);
+    border: 1px solid var(--line-2);
+    border-radius: var(--radio);
+  }
   .grupo + .grupo { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
   .grupo__titulo {
     font-size: 1.32rem;

@@ -22,7 +22,7 @@ function recorrer(dir) {
     if (antes !== despues) { writeFileSync(p, despues); cambios++; }
   }
 }
-recorrer(join('src', 'content'));
+recorrer(join('src', 'data'));
 
 // 2. Borrar originales que ya tienen WebP
 let borrados = 0, liberados = 0;

@@ -10,10 +10,17 @@ const grupos = porGrupo(entradas);
 const agrupar = true && grupos.length > 1;
 ---
 
-<Base titulo="Finca El Dátil" descripcion="La propiedad donde nacen nuestros vinos y delicatessen: su historia, los caballos peruanos de paso y la colección de carruajes.">
+<Base titulo="Finca El Dátil" descripcion="Historia de Finca El Dátil, establecimiento agrícola ganadero ubicado en El Tala, Salta, y lugar de origen de la marca Lola Mora Wine.">
   <div class="contenedor seccion">
     <Miga items={[{ texto: 'Finca El Dátil' }]} />
-    <Encabezado antetitulo="El origen" titulo="Finca El Dátil" bajada="La propiedad donde nacen nuestros vinos y delicatessen: su historia, los caballos peruanos de paso y la colección de carruajes." />
+    <Encabezado antetitulo="El origen de la marca" titulo="Finca El Dátil" bajada="Establecimiento agrícola ganadero ubicado en El Tala, Salta: su historia, los caballos peruanos de paso y la colección de carruajes." />
+
+    <aside class="aclaracion">
+      <strong>Una precisión importante:</strong> Finca El Dátil es el origen histórico de la
+      marca y está en El Tala, Salta. No debe confundirse esa ubicación con el origen de las
+      uvas ni con el lugar de elaboración de cada producto; esos datos se informan en la etiqueta
+      y en la ficha técnica vigente de cada partida.
+    </aside>
 
     {agrupar ? grupos.map(([grupo, items]) => (
       <section class="grupo">
@@ -48,6 +55,14 @@ const agrupar = true && grupos.length > 1;
 </Base>
 
 <style>
+  .aclaracion {
+    margin-bottom: 2rem;
+    padding: 1rem 1.2rem;
+    color: var(--ink-2);
+    background: var(--oro-wash);
+    border: 1px solid var(--line-2);
+    border-radius: var(--radio);
+  }
   .grupo + .grupo { margin-top: clamp(2.5rem, 5vw, 3.5rem); }
   .grupo__titulo {
     font-size: 1.32rem;

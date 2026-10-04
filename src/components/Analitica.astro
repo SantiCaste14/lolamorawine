@@ -1,0 +1,99 @@
+---
+// La medición queda lista, pero no envía nada hasta configurar PUBLIC_GA4_ID.
+// Nunca se capturan textos escritos por la persona, emails ni parámetros libres.
+import { u } from '../lib/sitio';
+const id = (import.meta.env.PUBLIC_GA4_ID ?? '').trim();
+const idValido = /^G-[A-Z0-9]+$/i.test(id);
+---
+
+{idValido && (
+  <aside id="consentimiento-analitica" class="consentimiento" aria-labelledby="consentimiento-titulo" hidden>
+    <div>
+      <strong id="consentimiento-titulo">Medición del sitio</strong>
+      <p>Podemos usar analítica para entender qué contenidos resultan útiles. Solo se activa si aceptás.</p>
+      <a href={u('/politica-de-privacidad/')}>Más información</a>
+    </div>
+    <div class="consentimiento__acciones">
+      <button id="analitica-rechazar" class="boton boton--fantasma" type="button">No aceptar</button>
+      <button id="analitica-aceptar" class="boton" type="button">Aceptar</button>
+    </div>
+  </aside>
+)}
+
+<style>
+  .consentimiento {
+    position: fixed;
+    z-index: 150;
+    inset: auto 1rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    max-width: 58rem;
+    margin-inline: auto;
+    padding: 1rem 1.2rem;
+    background: var(--surface);
+    border: 1px solid var(--line-2);
+    box-shadow: var(--sombra-alta);
+  }
+  .consentimiento[hidden] { display: none; }
+  .consentimiento p { color: var(--muted); font-size: .86rem; line-height: 1.45; }
+  .consentimiento a { font-size: .82rem; }
+  .consentimiento__acciones { display: flex; flex-wrap: wrap; gap: .5rem; flex-shrink: 0; }
+  .consentimiento .boton { min-height: 40px; padding: .6rem 1rem; font-size: .68rem; }
+  @media (max-width: 680px) {
+    .consentimiento { align-items: stretch; flex-direction: column; }
+  }
+</style>
+
+<script define:vars={{ id: idValido ? id : '' }} is:inline>
+  (() => {
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+
+    const CLAVE = 'lm-analitica';
+    const aviso = document.getElementById('consentimiento-analitica');
+    const activar = () => {
+      if (!id || document.querySelector('script[data-lm-ga4]')) return;
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(id)}`;
+      script.dataset.lmGa4 = 'true';
+      document.head.appendChild(script);
+      gtag('js', new Date());
+      gtag('config', id, { anonymize_ip: true });
+    };
+
+    if (id) {
+      let preferencia = null;
+      try { preferencia = localStorage.getItem(CLAVE); } catch { /* sin persistencia */ }
+      if (preferencia === 'si') activar();
+      else if (preferencia !== 'no' && aviso) aviso.hidden = false;
+
+      document.getElementById('analitica-aceptar')?.addEventListener('click', () => {
+        try { localStorage.setItem(CLAVE, 'si'); } catch { /* sin persistencia */ }
+        if (aviso) aviso.hidden = true;
+        activar();
+      });
+      document.getElementById('analitica-rechazar')?.addEventListener('click', () => {
+        try { localStorage.setItem(CLAVE, 'no'); } catch { /* sin persistencia */ }
+        if (aviso) aviso.hidden = true;
+      });
+    }
+
+    document.addEventListener('click', (evento) => {
+      const enlace = evento.target instanceof Element
+        ? evento.target.closest('[data-analytics]')
+        : null;
+      if (!enlace) return;
+      const nombre = enlace.getAttribute('data-analytics');
+      if (!nombre || !/^[a-z0-9_]+$/i.test(nombre)) return;
+      window.dataLayer.push({
+        event: nombre,
+        item_name: enlace.getAttribute('data-product') || undefined,
+        link_type: enlace.getAttribute('data-link-type') || undefined,
+      });
+    });
+  })();
+</script>

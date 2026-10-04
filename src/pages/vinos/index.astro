@@ -9,13 +9,20 @@ import { sitio, u } from '../../lib/sitio';
 const vinos = await productosPorCategoria('vinos');
 const guias = (await publicadas('vinos')).slice(0, 6);
 const descripcion =
-  'Malbec y Tempranillo de Finca El Dátil. Vinos finos argentinos con arte argentino en cada etiqueta.';
+  'Malbec y Tempranillo argentinos inspirados en Lola Mora. El origen, la añada y la elaboración se informan según la partida vigente.';
 ---
 
 <Base titulo="Vinos" descripcion={descripcion}>
   <div class="contenedor seccion">
     <Miga items={[{ texto: 'Vinos' }]} />
     <Encabezado antetitulo="Nuestros vinos" titulo="Vinos con historia" bajada={descripcion} />
+
+    <p class="origen">
+      Finca El Dátil, en El Tala (Salta), es el origen histórico de la marca. Las fuentes
+      históricas de Lola Mora Wine también mencionan viñas familiares en Nonogasta (La Rioja)
+      y uvas seleccionadas en Mendoza. Por eso la procedencia comercial vigente debe verificarse
+      en la etiqueta o ficha técnica de la botella disponible.
+    </p>
 
     <div class="grilla">
       {vinos.map((p) => (
@@ -56,6 +63,7 @@ const descripcion =
 </Base>
 
 <style>
+  .origen { max-width: 76ch; margin: -1rem 0 2rem; color: var(--muted); }
   .legal {
     margin-top: 2rem;
     font-size: 0.85rem;

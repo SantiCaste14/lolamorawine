@@ -15,7 +15,7 @@ import sharp from 'sharp';
 const BK_IMG = join('..', 'backup-2026-08-28', 'img');
 const BK_MD = join('..', 'backup-2026-08-28', 'md');
 const DESTINO = 'public/img/prod';
-const CONTENIDO = join('src', 'content', 'productos');
+const CONTENIDO = join('src', 'data', 'productos');
 const ANCHO = 1000;
 
 if (!existsSync(DESTINO)) mkdirSync(DESTINO, { recursive: true });

@@ -68,8 +68,8 @@ const MOJIBAKE = [
 ];
 
 let tocados = 0;
-for (const coleccion of readdirSync(join('src', 'content'))) {
-  const dir = join('src', 'content', coleccion);
+for (const coleccion of readdirSync(join('src', 'data'))) {
+  const dir = join('src', 'data', coleccion);
   for (const archivo of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
     const ruta = join(dir, archivo);
     const clave = `${coleccion}/${archivo.replace(/\.md$/, '')}`;
@@ -95,8 +95,8 @@ console.log(`Archivos corregidos: ${tocados}`);
 
 // Informe de titulos que siguen siendo largos para el <title> (con el sufijo de marca)
 const LIMITE = 52;
-for (const coleccion of readdirSync(join('src', 'content'))) {
-  const dir = join('src', 'content', coleccion);
+for (const coleccion of readdirSync(join('src', 'data'))) {
+  const dir = join('src', 'data', coleccion);
   for (const archivo of readdirSync(dir).filter((f) => f.endsWith('.md'))) {
     const t = readFileSync(join(dir, archivo), 'utf8').match(/^titulo: "(.*)"$/m)?.[1] ?? '';
     if (t.length > LIMITE) console.log(`  largo (${t.length}): ${coleccion}/${archivo} — ${t}`);

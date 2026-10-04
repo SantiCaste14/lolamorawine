@@ -40,7 +40,7 @@ const SECCION_POR_SLUG = [
 // 1. Mapa slug-de-contenido -> ruta final, leyendo lo que realmente se publico
 const destinoPorSlug = {};
 for (const [col, ruta] of Object.entries(RUTA)) {
-  const dir = join('src', 'content', col);
+  const dir = join('src', 'data', col);
   if (!existsSync(dir)) continue;
   for (const f of readdirSync(dir).filter(x => x.endsWith('.md'))) {
     destinoPorSlug[basename(f, '.md')] = `${ruta}/${basename(f, '.md')}/`;
@@ -58,6 +58,7 @@ const fallback = (slug, urlVieja) => {
 };
 
 const mapa = {};
+const conflictos = new Set();
 const stats = { directo: 0, fallback: 0, home: 0 };
 for (const [urlVieja, destinoViejo] of Object.entries(viejo)) {
   const slug = destinoViejo.replace(/^\/|\/$/g, '');
@@ -70,8 +71,15 @@ for (const [urlVieja, destinoViejo] of Object.entries(viejo)) {
   const origen = urlVieja.split('?')[0];
   if (!origen || origen === '/' || origen === destino) continue;
   if (!/^\/[A-Za-z0-9._~\-\/]*$/.test(origen)) continue;  // sin querystring ni caracteres raros
+  if (mapa[origen] && mapa[origen] !== destino) conflictos.add(origen);
   mapa[origen] = destino;
 }
+
+// Una misma ruta Joomla podía representar destinos distintos según la query.
+// Los redirects por archivo no pueden leerla; nunca se elige arbitrariamente
+// el último producto. Se usa un destino de sección si la ruta lo permite y,
+// para /index.php, la portada neutral.
+for (const origen of conflictos) mapa[origen] = fallback('', origen);
 
 // 3. Astro: objeto de redirects (genera una pagina con meta-refresh + canonical)
 const entradas = Object.entries(mapa).sort(([a], [b]) => a.localeCompare(b));

@@ -9,7 +9,7 @@ export const sitio = {
   lema: 'Vinos con historia',
   bajada: 'Arte argentino en cada etiqueta',
   descripcion:
-    'Vinos finos argentinos, delicatessen artesanales y regalos corporativos de Finca El Dátil. Malbec y Tempranillo, jamón crudo, salame de llama y aceite de oliva.',
+    'Vinos argentinos, delicatessen y regalos corporativos inspirados en Lola Mora y en la historia de Finca El Dátil, ubicada en El Tala, Salta.',
 
   /** Datos de la empresa. COMPLETAR antes de publicar (Ley 24.240). */
   empresa: {

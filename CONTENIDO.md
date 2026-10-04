@@ -35,7 +35,7 @@ No hay que avisarle a nadie ni apretar ningún botón de "publicar".
 Es la forma más simple y no requiere ninguna configuración previa.
 
 1. Entrá a **https://github.com/SantiagoCastellanos14/lolamorawine**
-2. Abrí la carpeta **`src/content`**
+2. Abrí la carpeta **`src/data`**
 3. Entrá a la sección que quieras (ver §4) y hacé clic en el archivo `.md`
 4. Tocá el **lápiz** ✏️ arriba a la derecha
 5. Editá el texto
@@ -53,7 +53,7 @@ Listo. En un par de minutos el cambio está online.
 
 ### Cambiar el precio de un producto
 
-1. `src/content/productos/` → abrí el producto
+1. `src/data/productos/` → abrí el producto
 2. Buscá la línea `precio:`
 3. Escribí el número **sin puntos, sin comas y sin el signo $**
 
@@ -95,7 +95,7 @@ automáticamente (`npm run optimizar`).
 
 ### Escribir una noticia nueva
 
-1. `src/content/noticias/` → **Add file** → **Create new file**
+1. `src/data/noticias/` → **Add file** → **Create new file**
 2. Nombre del archivo: `titulo-de-la-noticia.md` (minúsculas, sin acentos, con guiones)
 3. Pegá esta plantilla y completala:
 
@@ -158,7 +158,7 @@ También en `src/lib/sitio.ts`, en `navegacion`. El orden de la lista es el orde
 
 ## 4. Cómo se organiza el contenido
 
-Todo vive en **`src/content/`**, una carpeta por sección:
+Todo vive en **`src/data/`**, una carpeta por sección:
 
 | Carpeta | Qué contiene | Dónde se ve |
 |---|---|---|
@@ -171,7 +171,7 @@ Todo vive en **`src/content/`**, una carpeta por sección:
 | `paginas/` | Nosotros, escudo, privacidad | `/nosotros/` |
 
 **El nombre del archivo es la dirección web.**
-`src/content/historia/fuente-de-las-nereidas.md` → `/lola-mora/fuente-de-las-nereidas/`
+`src/data/historia/fuente-de-las-nereidas.md` → `/lola-mora/fuente-de-las-nereidas/`
 
 > ⚠️ **Cambiar el nombre de un archivo cambia la dirección** y rompe los links que ya
 > circulan. Si hace falta cambiarlo, avisá para agregar una redirección.

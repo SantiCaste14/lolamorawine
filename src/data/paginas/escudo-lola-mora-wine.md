@@ -2,7 +2,7 @@
 titulo: "Escudo Lola Mora Wine"
 descripcion: "Escudo de Lola Mora Wine, empresa dedicada a la elaboración y venta de vinos y delicatesen argentinos."
 urlOriginal: "/home/184.html?date=2026-07-01"
-portada: "/img/images_fotosarticulos_escudo-lola-mora-wine.jpg"
+portada: "/img/marca/escudo-lola-mora.svg"
 orden: 2
 ---
 El escudo de Lola Mora Wine sintetiza elementos que el arte y el vino conjugan. Es, además, un tributo que se rinde a la primera escultora latinoamericana de origen argentino: Dolores Mora de Hernández, conocida como Lola Mora.
@@ -13,11 +13,11 @@ Este elemento resalta el carácter noble del vino, bebida que acompaña al hombr
 
 ##### Campos divisorios (4)
 
-Se hace alusión a los aspectos principales que se combinan en Lola Mora Wine: el arte, simbolizado por la figura del león; el vino, simbolizado por el racimo de uvas; y la labor de la artista, representada por las iniciales de su nombre.
+Se hace alusión a los aspectos principales que se combinan en Lola Mora Wine: el arte y el movimiento, simbolizados por la figura ecuestre; el vino, simbolizado por el racimo de uvas; y la labor de la artista, representada por las iniciales de su nombre.
 
-##### El león
+##### El caballo escultórico
 
-De figura imponente, representa al arte, específicamente a la escultura, rama del arte desarrollada por Lola Mora). La fuerza, el prestigio y el temple del león se hallan presentes en este escudo de porte real.
+La silueta ecuestre representa el arte en movimiento y enlaza la identidad de Lola Mora con la tradición del caballo peruano de paso de Finca El Dátil.
 El racimo de uvas: Símbolo histórico del vino, este fruto destaca la producción natural del vino, su vinculación con la tierra, con el clima y con el prolijo cuidado del hombre para producir una bebida de calidad superior.
 
 ##### Los colores

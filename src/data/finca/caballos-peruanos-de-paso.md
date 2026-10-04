@@ -2,6 +2,7 @@
 titulo: "Galería de caballos peruanos de paso"
 descripcion: "Registro audiovisual histórico de caballos peruanos de paso en El Tala, Salta."
 urlOriginal: "/seccion-galerias/videos-lola-mora-wine/video/13.html"
+portada: "/img/editorial/caballo-peruano-ilustrativo.webp"
 grupo: "Caballos peruanos de paso"
 orden: 7
 ---

@@ -2,6 +2,7 @@
 titulo: "Carruajes en el Festival de Jesús María"
 descripcion: "Registro audiovisual histórico de carruajes antiguos en el Festival Nacional de Doma y Folklore de Jesús María, Córdoba."
 urlOriginal: "/seccion-galerias/videos-lola-mora-wine/video/10.html"
+portada: "/img/editorial/carruaje-historico-ilustrativo.webp"
 grupo: "Carruajes"
 orden: 13
 ---

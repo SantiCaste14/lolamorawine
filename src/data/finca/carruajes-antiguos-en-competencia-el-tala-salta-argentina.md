@@ -2,6 +2,7 @@
 titulo: "Competencia de carruajes en El Tala, Salta"
 descripcion: "Registro audiovisual histórico de una competencia de carruajes en El Tala, Salta."
 urlOriginal: "/seccion-galerias/videos-lola-mora-wine/video/11.html"
+portada: "/img/editorial/carruaje-historico-ilustrativo.webp"
 grupo: "Carruajes"
 orden: 12
 ---

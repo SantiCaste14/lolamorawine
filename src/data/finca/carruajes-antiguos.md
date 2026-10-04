@@ -2,7 +2,7 @@
 titulo: "Carruajes antiguos"
 descripcion: "Establecimiento vitivinícola dedicado a la producción y venta de vinos finos Argentinos, regalos empresariales y delicatesen. Historia de Lola Mora.Obras. Cab"
 urlOriginal: "/seccion-galerias/gallery/3.html"
-portada: "/img/images_stories_igallery_carruajes__thumbs_carruaje_1___Lola_Mora_Wine.webp"
+portada: "/img/editorial/carruaje-historico-ilustrativo.webp"
 grupo: "Carruajes"
 orden: 8
 ---

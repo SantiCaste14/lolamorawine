@@ -2,7 +2,7 @@
 titulo: "En Permanente Búsqueda"
 descripcion: "Descripción de los viñedos de Lola Mora Wine."
 urlOriginal: "/home/250.html?date=2026-07-01"
-portada: "/img/images_cajaluz_temp_deaa64ae402ad843cae3244c08bcb69e.webp"
+portada: "/img/foto/textura-bodega.webp"
 orden: 3
 ---
 #### En permanente búsqueda

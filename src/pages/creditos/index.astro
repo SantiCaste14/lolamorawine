@@ -5,8 +5,7 @@ import Miga from '../../components/Miga.astro';
 import creditos from '../../lib/creditos.json';
 import { u } from '../../lib/sitio';
 
-const descripcion =
-  'Autoría y licencia de las fotografías de este sitio, y origen de los elementos de marca.';
+const descripcion = 'Autoría y licencia de las fotografías documentales utilizadas en este sitio.';
 ---
 
 <Base titulo="Créditos de imágenes" descripcion={descripcion}>
@@ -19,6 +18,11 @@ const descripcion =
         Las fotografías de la obra de Lola Mora provienen de Wikimedia Commons y se
         publican bajo licencia libre. Se recortaron y se les aplicó corrección de color;
         no se alteró su contenido. A continuación, la atribución de cada una.
+      </p>
+      <p>
+        Las portadas ecuestre y de carruajes son ilustraciones editoriales creadas para
+        esta versión del sitio. No documentan animales, vehículos ni eventos específicos
+        de Finca El Dátil.
       </p>
     </div>
 
@@ -39,19 +43,6 @@ const descripcion =
       ))}
     </ul>
 
-    <div class="prosa">
-      <h2>Elementos de marca</h2>
-      <p>
-        El escudo, el wordmark y el dibujo de la casa natal provienen del sitio original
-        de Lola Mora Wine (2009) y son propiedad de la marca. El escudo se redibujó en
-        vector a partir del original para que se vea nítido en cualquier tamaño.
-      </p>
-      <h2>Fotografía de producto</h2>
-      <p>
-        Las fotos de los vinos, los estuches y los delicatessen son las del catálogo
-        original, reescaladas. Están pendientes de reemplazo por una sesión nueva.
-      </p>
-    </div>
   </div>
 </Base>
 

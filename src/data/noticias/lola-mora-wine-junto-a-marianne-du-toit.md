@@ -2,7 +2,7 @@
 titulo: "Lola Mora Wine Junto a Marianne Du Toit"
 descripcion: "Establecimiento vitivinícola dedicado a la producción y venta de vinos finos Argentinos, regalos empresariales y delicatesen. Historia de Lola Mora.Obras. Cab"
 urlOriginal: "/home/249-lola-mora-wine-marianne-du-toit.html?date=2026-07-01"
-portada: "/img/images_fotosarticulos_marianne_du_toit_-_crying_with_cockroaches.webp"
+portada: "/img/editorial/caballo-peruano-ilustrativo.webp"
 fecha: 2015-06-01
 ---
 Una Vez mas desde Lola Mora Wine, nos vemos gratamente reconocidos. Y esta vez lo es por nuestra calidad de patrocinadores "sponsors" en la travesía realizada por Marianne Du Toit quien unió a caballo la ciudad de Buenos Aires con New York ( E.E.U.U.). Hoy la artífice de semejante desafío nos hace llegar un ejemplar de su libro**"Crying with Cockroaches: Argentina to New York with Two Horses"**, en el que relata en forma ágil y entretenida todas las impresiones, vivencias y dificultades que se le fueron presentado a lo largo de sus prácticamente dos años de recorrido; documentandolo con fotografías, cartas y recortes periodisticos.

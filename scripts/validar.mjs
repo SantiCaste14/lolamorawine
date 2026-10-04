@@ -99,6 +99,7 @@ for (const archivo of reales) {
     [/Viino/, 'errata "Viino"'],
     [/getflashplayer/i, 'enlace a Flash Player'],
     [/Delicatesen\b/, 'errata "Delicatesen"'],
+    [/<div class="t__sinfoto"/, 'tarjeta pública sin imagen de portada'],
   ]) {
     if (patron.test(html)) fallos.push(`${ruta} — ${motivo}`);
   }

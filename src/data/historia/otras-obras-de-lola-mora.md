@@ -2,7 +2,7 @@
 titulo: "Otras Obras de Lola Mora"
 descripcion: "Obras varias de la artista Lola Mora. Descripción y galería de fotos."
 urlOriginal: "/obras-de-lola-mora.html"
-portada: "/img/images_stories_igallery_obras_de_l-1_thumbs_Autoretrato___Obra_de_Lola_Mora_1.webp"
+portada: "/img/foto/nereidas-cima.webp"
 grupo: "Obras"
 orden: 14
 ---

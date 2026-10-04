@@ -2,6 +2,7 @@
 titulo: "Roberto Arce Vadillo y el mundo del vino"
 descripcion: "Establecimiento vitivinícola dedicado a la producción y venta de vinos finos Argentinos, regalos empresariales y delicatesen. Historia de Lola Mora.Obras. Cab"
 urlOriginal: "/home/253-roberto-arce-vadillo-qconociendo-el-mundo-del-vinoq.html?date=2026-07-01"
+portada: "/img/foto/textura-bodega.webp"
 fecha: 2014-11-01
 ---
 #### Roberto Arce Vadillo: «Conociendo el mundo del vino»

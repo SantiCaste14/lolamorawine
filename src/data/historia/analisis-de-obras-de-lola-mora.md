@@ -2,6 +2,7 @@
 titulo: "Análisis de Obras de Lola Mora"
 descripcion: "Análisis de las principales obras de Lola Mora. Contexto de las obras, características, detalles."
 urlOriginal: "/home/192.html?date=2026-07-01"
+portada: "/img/foto/nereidas-detalle.webp"
 grupo: "Obras"
 orden: 7
 ---

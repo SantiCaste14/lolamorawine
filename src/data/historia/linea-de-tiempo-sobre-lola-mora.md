@@ -2,6 +2,7 @@
 titulo: "Línea de Tiempo sobre Lola Mora"
 descripcion: "Datos mas destacados de la vida de la artista plastica Dolores Mora, Lola Mora, presentados en una línea de Tiempo Interactiva."
 urlOriginal: "/linea-de-tiempo-lola-mora.html"
+portada: "/img/foto/nereidas-cima.webp"
 grupo: "Documentación"
 orden: 6
 ---

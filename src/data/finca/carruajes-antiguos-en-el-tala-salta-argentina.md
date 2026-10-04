@@ -2,6 +2,7 @@
 titulo: "Carruajes antiguos en El Tala, Salta"
 descripcion: "Registro audiovisual histórico de una reunión de coleccionistas de carruajes en El Tala, Salta."
 urlOriginal: "/seccion-galerias/videos-lola-mora-wine/video/12.html"
+portada: "/img/editorial/carruaje-historico-ilustrativo.webp"
 grupo: "Carruajes"
 orden: 11
 ---

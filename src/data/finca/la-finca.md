@@ -2,6 +2,7 @@
 titulo: "Finca El Dátil"
 descripcion: "La Finca El Dátil es un establecimiento agrícola ganadero ubicado en la localidad de El Tala, Provincia de Salta. Entre sus actividades se encuentra la cría d"
 urlOriginal: "/home/200.html?date=2026-07-01"
+portada: "/img/foto/casa-natal.webp"
 grupo: "La finca"
 orden: 1
 ---

@@ -2,6 +2,7 @@
 titulo: "Salame de llama"
 descripcion: "Registro audiovisual histórico sobre el salame de llama del catálogo Lola Mora, publicado en 2009."
 urlOriginal: "/seccion-galerias/videos-lola-mora-wine/video/8.html"
+portada: "/img/prod/salame-de-llama-lola-mora.webp"
 orden: 3
 ---
 

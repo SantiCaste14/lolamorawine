@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Lola Mora Wine">
-  <rect width="64" height="64" rx="12" fill="#a72023"/>
-  <path d="M20 12h24v13c0 6.6-5.4 12-12 12s-12-5.4-12-12V12Z" fill="#f6e7c8"/>
-  <path d="M30 37h4v11h7v4H23v-4h7V37Z" fill="#f6e7c8"/>
+  <rect width="64" height="64" rx="12" fill="#6e121b"/>
+  <path d="M15 18 12 7l14 8 6-9 6 9 14-8-3 11M16 20h32v22c0 7-7 11-16 16-9-5-16-9-16-16Z" fill="none" stroke="#d6aa4a" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M32 20v30M17 34h30" stroke="#d6aa4a" stroke-width="2"/>
+  <circle cx="24" cy="41" r="2.5" fill="#d6aa4a"/><circle cx="29" cy="41" r="2.5" fill="#d6aa4a"/><circle cx="26.5" cy="46" r="2.5" fill="#d6aa4a"/>
 </svg>

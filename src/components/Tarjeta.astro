@@ -1,5 +1,6 @@
 ---
 import { u } from '../lib/sitio';
+import Escudo from './Escudo.astro';
 
 interface Props {
   href: string;
@@ -23,7 +24,7 @@ const {
     <div class="t__medio">
       {imagen
         ? <img src={u(imagen)} alt="" loading="lazy" decoding="async" width="720" height="540" />
-        : <div class="t__sinfoto" aria-hidden="true"><span>Lola Mora</span></div>}
+        : <div class="t__sinfoto" aria-hidden="true"><Escudo alto={116} compacto={true} /></div>}
       <span class="t__velo" aria-hidden="true"></span>
 
       {superpuesta && (
@@ -90,14 +91,7 @@ const {
       radial-gradient(120% 90% at 50% 0%, var(--vino-prof), transparent 70%),
       linear-gradient(160deg, #1b1212, #0d0a0a);
   }
-  .t__sinfoto span {
-    font-family: var(--romana);
-    font-size: 1rem;
-    letter-spacing: .3em;
-    text-transform: uppercase;
-    color: var(--oro);
-    opacity: .45;
-  }
+  .t__sinfoto :global(svg) { opacity: .6; filter: drop-shadow(0 10px 22px rgb(0 0 0 / 35%)); }
 
   /* Rótulo superpuesto, como las franjas del sitio de 2009 pero sin el brillo */
   .t__rotulo {
